@@ -23,12 +23,12 @@ class ClientePersistence extends Database
         try {
             $this->getDb()->table('cliente')->insert([
                 'id_usuario' => $userId,
-                'cliente_token' => $this->clienteToken()
+                'token' => $this->clienteToken()
             ]);
         } catch (\Throwable $th) {
             throw new ClienteException(json_encode([
                 'erros' => [
-                    'Erro ao inserir usuário do tipo admin.'
+                    'Erro ao inserir usuário do tipo cliente.'
                 ]
             ]));
         }

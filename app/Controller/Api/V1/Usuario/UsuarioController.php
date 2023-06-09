@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\V1\Usuario;
 
+use Hyperf\Di\Annotation\Inject;
 use App\Api\V1\DB\Transaction\Transaction;
 use App\Api\V1\Usuario\Admin\AdminPersistence;
 use App\Api\V1\Usuario\Admin\Exception\AdminException;
@@ -11,7 +12,6 @@ use App\Api\V1\Usuario\Cliente\Validation\ClienteValidation;
 use App\Api\V1\Usuario\Exception\UsuarioException;
 use App\Api\V1\Usuario\UsuarioPersistence;
 use App\Api\V1\Usuario\Validation\UsuarioValidation;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 

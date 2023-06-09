@@ -17,8 +17,6 @@ class IndexController extends AbstractController
 {
     public function index()
     {
-        return Db::table('usuario')->get();
-
         $user = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
 
