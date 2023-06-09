@@ -11,9 +11,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 abstract class Validator implements ValidatorInterface
 {
-    /**
-     * @var ValidatorFactoryInterface $validator
-     */
     #[Inject]
     public ValidatorFactoryInterface $validator;
 
