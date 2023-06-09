@@ -15,7 +15,7 @@ class CreateClienteTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('id_usuario');
             $table->foreign('id_usuario')->on('usuario')->references('id');
-            $table->uuid('token');
+            $table->string('token', 128);
             $table->index('token');
         });
     }
