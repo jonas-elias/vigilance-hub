@@ -7,9 +7,6 @@ namespace App\Api\V1\Usuario\Cliente;
  */
 trait ClienteToken
 {
-    /**
-     * @var int $numBytes
-     */
     private int $numBytes = 10;
 
     /**
