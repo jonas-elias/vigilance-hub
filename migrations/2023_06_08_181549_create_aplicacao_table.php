@@ -12,10 +12,10 @@ class CreateAplicacaoTable extends Migration
     public function up(): void
     {
         Schema::create('aplicacao', function (Blueprint $table) {
-            $table->bigIncrements('id_aplicacao');
+            $table->bigIncrements('id');
             $table->string('nome');
             $table->bigInteger('id_cliente');
-            $table->foreign('id_cliente')->on('cliente')->references('id_cliente');
+            $table->foreign('id_cliente')->on('cliente')->references('id');
             $table->uuid('token');
             $table->index('token');
             $table->dateTime('data_criacao');

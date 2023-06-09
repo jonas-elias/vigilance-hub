@@ -12,9 +12,9 @@ class CreateVigilanciaTable extends Migration
     public function up(): void
     {
         Schema::create('vigilancia', function (Blueprint $table) {
-            $table->bigIncrements('id_vigilancia');
+            $table->bigIncrements('id');
             $table->bigInteger('id_aplicacao');
-            $table->foreign('id_aplicacao')->on('aplicacao')->references('id_aplicacao');
+            $table->foreign('id_aplicacao')->on('aplicacao')->references('id');
             $table->dateTime('data_criacao');
         });
     }

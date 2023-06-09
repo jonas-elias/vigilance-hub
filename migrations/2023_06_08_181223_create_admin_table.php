@@ -12,9 +12,9 @@ class CreateAdminTable extends Migration
     public function up(): void
     {
         Schema::create('admin', function (Blueprint $table) {
-            $table->bigIncrements('id_admin');
+            $table->bigIncrements('id');
             $table->bigInteger('id_usuario');
-            $table->foreign('id_usuario')->on('usuario')->references('id_usuario');
+            $table->foreign('id_usuario')->on('usuario')->references('id');
         });
     }
 

@@ -12,9 +12,9 @@ class CreateRequestTable extends Migration
     public function up(): void
     {
         Schema::create('request', function (Blueprint $table) {
-            $table->bigIncrements('id_request');
+            $table->bigIncrements('id');
             $table->bigInteger('id_vigilancia');
-            $table->foreign('id_vigilancia')->on('vigilancia')->references('id_vigilancia');
+            $table->foreign('id_vigilancia')->on('vigilancia')->references('id');
             $table->string('metodo', 7);
             $table->string('uri');
             $table->integer('status');

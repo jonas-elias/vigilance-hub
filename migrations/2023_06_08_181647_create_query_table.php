@@ -14,11 +14,10 @@ class CreateQueryTable extends Migration
         Schema::create('query', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_vigilancia');
-            $table->foreign('id_vigilancia')->on('vigilancia')->references('id_vigilancia');
+            $table->foreign('id_vigilancia')->on('vigilancia')->references('id');
             $table->string('conector');
             $table->string('query', 8192);
             $table->string('localizacao');
-            $table->datetimes();
         });
     }
 

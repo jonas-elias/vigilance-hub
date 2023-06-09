@@ -12,9 +12,9 @@ class CreateClienteTable extends Migration
     public function up(): void
     {
         Schema::create('cliente', function (Blueprint $table) {
-            $table->bigIncrements('id_cliente');
+            $table->bigIncrements('id');
             $table->bigInteger('id_usuario');
-            $table->foreign('id_usuario')->on('usuario')->references('id_usuario');
+            $table->foreign('id_usuario')->on('usuario')->references('id');
             $table->uuid('token');
             $table->index('token');
         });
