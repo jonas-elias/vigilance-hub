@@ -15,7 +15,8 @@ class CreateQueryTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('id_vigilancia');
             $table->foreign('id_vigilancia')->on('vigilancia')->references('id');
-            $table->string('conector');
+            $table->string('conector', 10);
+            $table->float('duracao');
             $table->string('query', 8192);
             $table->string('localizacao');
         });

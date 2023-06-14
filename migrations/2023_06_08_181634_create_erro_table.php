@@ -16,7 +16,6 @@ class CreateErroTable extends Migration
             $table->bigInteger('id_vigilancia');
             $table->foreign('id_vigilancia')->on('vigilancia')->references('id');
             $table->string('stacktrace', 8192);
-            $table->string('query', 8192);
             $table->string('nivel', 10);
             $table->string('localizacao');
         });
