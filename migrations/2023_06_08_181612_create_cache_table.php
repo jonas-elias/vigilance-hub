@@ -13,8 +13,8 @@ class CreateCacheTable extends Migration
     {
         Schema::create('cache', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_vigilancia');
-            $table->foreign('id_vigilancia')->on('vigilancia')->references('id');
+            $table->bigInteger('id_monitoramento');
+            $table->foreign('id_monitoramento')->on('monitoramento')->references('id');
             $table->string('chave');
             $table->string('acao', 6);
         });

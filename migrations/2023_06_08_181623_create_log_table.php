@@ -13,8 +13,8 @@ class CreateLogTable extends Migration
     {
         Schema::create('log', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_vigilancia');
-            $table->foreign('id_vigilancia')->on('vigilancia')->references('id');
+            $table->bigInteger('id_monitoramento');
+            $table->foreign('id_monitoramento')->on('monitoramento')->references('id');
             $table->string('nivel', 10);
             $table->string('mensagem', 4096);
         });

@@ -16,7 +16,7 @@ class CreateAplicacaoTable extends Migration
             $table->string('nome');
             $table->bigInteger('id_cliente');
             $table->foreign('id_cliente')->on('cliente')->references('id');
-            $table->string('token', 128)->index('token');
+            $table->string('token', 128)->index('aplicacao_token');
             $table->dateTime('data_criacao');
         });
     }
