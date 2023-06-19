@@ -15,6 +15,9 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 
+/**
+ * class ErroController
+ */
 class ErroController
 {
     #[Inject]
@@ -74,7 +77,6 @@ class ErroController
             return $response->json(json_decode($de->getMessage()))->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
-            dd($th->getMessage());
             return $response->json(([
                 'errors' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
