@@ -35,6 +35,12 @@ class CacheController
     #[Inject]
     protected Transaction $transaction;
 
+    /**
+     * Method to create cache monitoramento
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     */
     public function create(RequestInterface $request, ResponseInterface $response)
     {
         $inputsMonitoramento = [
@@ -68,7 +74,6 @@ class CacheController
             return $response->json(json_decode($ae->getMessage()))->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
-            dd($th->getMessage());
             return $response->json(([
                 'errors' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
