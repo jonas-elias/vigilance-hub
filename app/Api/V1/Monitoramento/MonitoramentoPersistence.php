@@ -26,7 +26,7 @@ class MonitoramentoPersistence extends Database
                     ->where('c.token', $inputs['clienteToken'])
                     ->where('a.token', $inputs['aplicacaoToken'])
                     ->first()['id'],
-                'data_criacao' => date('Y-m-d h:m:s')
+                'data_criacao' => date('Y-m-d H:m:s')
             ]);
         } catch (\Throwable $th) {
             dd($th->getMessage());
