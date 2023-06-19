@@ -26,7 +26,7 @@ class UsuarioPersistence extends Database
                 'nome' => $inputs['nome'],
                 'email' => $inputs['email'],
                 'senha' => $this->hash($inputs['senha']),
-                'data_criacao' => date('d-m-Y h:m:s')
+                'data_criacao' => date('Y-m-d H:i:s')
             ]);
         } catch (\Throwable $th) {
             throw new UsuarioException(json_encode([
