@@ -36,7 +36,7 @@ class LogController
     protected Transaction $transaction;
 
     /**
-     * Method to create erro monitoramento
+     * Method to create log monitoramento
      *
      * @param RequestInterface $request
      * @param ResponseInterface $response
