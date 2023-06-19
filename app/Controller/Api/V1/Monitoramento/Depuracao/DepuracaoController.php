@@ -36,7 +36,7 @@ class DepuracaoController
     protected Transaction $transaction;
 
     /**
-     * Method to create depuracao
+     * Method to create depuracao monitoramento
      *
      * @param RequestInterface $request
      * @param ResponseInterface $response
