@@ -59,14 +59,13 @@ class UsuarioController
      */
     public function register(RequestInterface $request, ResponseInterface $response)
     {
+        $inputs = [
+            'nome' => $request->input('nome'),
+            'email' => $request->input('email'),
+            'senha' => $request->input('senha'),
+            'isAdmin' => $request->input('isAdmin')
+        ];
         try {
-            $inputs = [
-                'nome' => $request->input('nome'),
-                'email' => $request->input('email'),
-                'senha' => $request->input('senha'),
-                'isAdmin' => $request->input('isAdmin')
-            ];
-
             $this->usuarioValidation->validate($inputs);
 
             $this->transaction->beginTransaction();
