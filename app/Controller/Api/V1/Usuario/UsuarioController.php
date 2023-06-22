@@ -74,6 +74,10 @@ class UsuarioController
             if ($inputs['isAdmin']) {
                 $this->adminValidation->validate(['userId' => $userId]);
                 $this->adminPersistence->insert($userId);
+                return $response->json([
+                    'success' => true,
+                    'message' => 'Usuário inserido com sucesso.'
+                ])->withStatus(201);
             }
             $this->clienteValidation->validate(['userId' => $userId]);
             $this->clientePersistence->insert($userId);
