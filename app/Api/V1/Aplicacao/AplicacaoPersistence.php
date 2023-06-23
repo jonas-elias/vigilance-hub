@@ -30,7 +30,32 @@ class AplicacaoPersistence extends Database
         } catch (\Throwable $th) {
             throw new AplicacaoException(json_encode([
                 'erros' => [
-                    'Erro ao inserir aplicação.'
+                    'Erro ao inserir a aplicação.'
+                ]
+            ]));
+        }
+    }
+
+    /**
+     * Method to update application in database
+     *
+     * @param array $inputs
+     * @param int $idAplicacao
+     * @return int
+     */
+    public function update(array $inputs, int $idAplicacao): void
+    {
+        try {
+            $this->getDb()->table('aplicacao')
+                ->where('id', $idAplicacao)
+                ->update([
+                    'data_criacao' => date('Y-m-d h:m:s'),
+                    'nome' => $inputs['nome']
+                ]);
+        } catch (\Throwable $th) {
+            throw new AplicacaoException(json_encode([
+                'erros' => [
+                    'Erro ao alterar a aplicação.'
                 ]
             ]));
         }

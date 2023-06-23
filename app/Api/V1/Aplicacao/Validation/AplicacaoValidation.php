@@ -13,14 +13,16 @@ class AplicacaoValidation extends Validator
      * Method to validate application inputs
      *
      * @param array $inputs
+     * @param ?string $method = null
      * @return void
      */
-    public function validate(array $inputs): void
+    public function validate(array $inputs, ?string $method = null): void
     {
         $validation = $this->validator->make([
-            'idCliente' => $inputs['idCliente'],
-            'nome' => $inputs['nome'],
-        ], $this->rules());
+            'idCliente' => $inputs['idCliente'] ?? '',
+            'nome' => $inputs['nome'] ?? '',
+            'idAplicacao' => $inputs['idAplicacao'] ?? ''
+        ], $this->rules()[$method]);
 
         if ($validation->fails()) {
             throw new \InvalidArgumentException(json_encode($validation->errors()));
@@ -35,8 +37,14 @@ class AplicacaoValidation extends Validator
     public function rules(): array
     {
         return [
-            'idCliente' => 'required|integer|exists:cliente,id',
-            'nome' => 'required|string',
+            'insert' => [
+                'idCliente' => 'required|integer|exists:cliente,id',
+                'nome' => 'required|string',
+            ],
+            'update' => [
+                'idAplicacao' => 'required|integer|exists:aplicacao,id',
+                'nome' => 'required|string',
+            ]
         ];
     }
 }

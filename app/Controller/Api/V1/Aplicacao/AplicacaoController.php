@@ -40,7 +40,7 @@ class AplicacaoController
         ];
 
         try {
-            $this->aplicacaoValidation->validate($inputs);
+            $this->aplicacaoValidation->validate($inputs, 'insert');
             $this->transaction->beginTransaction();
             $this->aplicacaoPersistence->insertGetId($inputs);
             $this->transaction->commit();
@@ -48,6 +48,42 @@ class AplicacaoController
                 'success' => true,
                 'message' => 'Aplicação inserida com sucesso.'
             ])->withStatus(201);
+        } catch (\InvalidArgumentException $in) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($in->getMessage()))->withStatus(400);
+        } catch (AplicacaoException $ae) {
+            return $response->json(json_decode($ae->getMessage()))->withStatus(400);
+        } catch (\Throwable $th) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
+            ]))->withStatus(500);
+        }
+    }
+
+    /**
+     * Method to create new application
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param int $idAplicacao
+     */
+    public function update(RequestInterface $request, ResponseInterface $response, int $idAplicacao)
+    {
+        $inputs = [
+            'nome' => $request->input('nome'),
+            'idAplicacao' => $idAplicacao
+        ];
+
+        try {
+            $this->aplicacaoValidation->validate($inputs, 'update');
+            $this->transaction->beginTransaction();
+            $this->aplicacaoPersistence->update($inputs, $inputs['idAplicacao']);
+            $this->transaction->commit();
+            return $response->json([
+                'success' => true,
+                'message' => 'Aplicação alterada com sucesso.'
+            ])->withStatus(200);
         } catch (\InvalidArgumentException $in) {
             $this->transaction->rollBack();
             return $response->json(json_decode($in->getMessage()))->withStatus(400);
