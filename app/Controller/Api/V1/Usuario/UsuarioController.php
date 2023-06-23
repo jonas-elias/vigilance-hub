@@ -8,6 +8,7 @@ use App\Api\V1\Usuario\Admin\AdminPersistence;
 use App\Api\V1\Usuario\Admin\Exception\AdminException;
 use App\Api\V1\Usuario\Admin\Validation\AdminValidation;
 use App\Api\V1\Usuario\Cliente\ClientePersistence;
+use App\Api\V1\Usuario\Cliente\Exception\ClienteException;
 use App\Api\V1\Usuario\Cliente\Validation\ClienteValidation;
 use App\Api\V1\Usuario\Exception\UsuarioException;
 use App\Api\V1\Usuario\UsuarioPersistence;
@@ -66,7 +67,7 @@ class UsuarioController
             'isAdmin' => $request->input('isAdmin')
         ];
         try {
-            $this->usuarioValidation->validate($inputs);
+            $this->usuarioValidation->validate($inputs, 'insert');
 
             $this->transaction->beginTransaction();
             $userId = $this->usuarioPersistence->insertGetId($inputs);
@@ -98,6 +99,50 @@ class UsuarioController
             $this->transaction->rollBack();
             return $response->json(([
                 'errors' => $ae->getMessage()
+            ]))->withStatus(400);
+        } catch (ClienteException $ce) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => $ce->getMessage()
+            ]))->withStatus(400);
+        } catch (\Throwable $th) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => $th->getMessage()
+            ]))->withStatus(500);
+        }
+    }
+
+    /**
+     * Method to update user
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @return array  
+     */
+    public function update(RequestInterface $request, ResponseInterface $response, int $userId)
+    {
+        $inputs = [
+            'nome' => $request->input('nome'),
+            'email' => $request->input('email')
+        ];
+        try {
+            $this->usuarioValidation->validate($inputs, 'update');
+
+            $this->transaction->beginTransaction();
+            $this->usuarioPersistence->update($inputs, $userId);
+            $this->transaction->commit();
+
+            return $response->json([
+                'success' => true,
+                'message' => 'Usuário alterado com sucesso.'
+            ])->withStatus(200);
+        } catch (\InvalidArgumentException $in) {
+            return $response->json(json_decode($in->getMessage()))->withStatus(422);
+        } catch (UsuarioException $ue) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => $ue->getMessage()
             ]))->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
