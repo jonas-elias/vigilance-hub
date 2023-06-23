@@ -20,6 +20,7 @@ Router::get('/favicon.ico', function () {
 
 Router::addGroup('/api', function () {
     Router::addGroup('/v1', function () {
+        Router::put('/usuario/update/{userId}', 'App\Controller\Api\V1\Usuario\UsuarioController@update');
         Router::post('/usuario/register', 'App\Controller\Api\V1\Usuario\UsuarioController@register');
         Router::post('/aplicacao', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@create');
         Router::post('/monitoramento/cache', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@create');
