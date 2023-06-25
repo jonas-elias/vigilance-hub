@@ -33,4 +33,30 @@ class ErroPersistence extends Database
             ]));
         }
     }
+
+    /**
+     * Method to update erro monitoramento in database
+     *
+     * @param array $inputs
+     * @param int $idErro
+     * @return void
+     */
+    public function update(array $inputs, int $idErro): void
+    {
+        try {
+            $this->getDb()->table('erro')
+            ->where('id', $idErro)
+            ->update([
+                'nivel' => $inputs['nivel'],
+                'localizacao' => $inputs['localizacao'],
+                'stacktrace' => $inputs['stacktrace']
+            ]);
+        } catch (\Throwable $th) {
+            throw new ErroException(json_encode([
+                'erros' => [
+                    'Erro ao alterar o monitoramento de erro.'
+                ]
+            ]));
+        }
+    }
 }
