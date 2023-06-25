@@ -13,15 +13,17 @@ class CacheValidation extends Validator
      * Method to validate application inputs
      *
      * @param array $inputs
+     * @param ?string $method = null
      * @return void
      */
-    public function validate(array $inputs): void
+    public function validate(array $inputs, ?string $method = null): void
     {
         $validation = $this->validator->make([
-            'idMonitoramento' => $inputs['idMonitoramento'],
-            'chave' => $inputs['chave'],
-            'acao' => $inputs['acao']
-        ], $this->rules());
+            'idMonitoramento' => $inputs['idMonitoramento'] ?? '',
+            'chave' => $inputs['chave'] ?? '',
+            'acao' => $inputs['acao'] ?? '',
+            'idCache' => $inputs['idCache'] ?? ''
+        ], $this->rules()[$method]);
 
         if ($validation->fails()) {
             throw new \InvalidArgumentException(json_encode($validation->errors()));
@@ -36,9 +38,16 @@ class CacheValidation extends Validator
     public function rules(): array
     {
         return [
-            'idMonitoramento' => 'required|integer|exists:monitoramento,id',
-            'chave' => 'required|string|max:255',
-            'acao' => 'required|string|max:6'
+            'insert' => [
+                'idMonitoramento' => 'required|integer|exists:monitoramento,id',
+                'chave' => 'required|string|max:255',
+                'acao' => 'required|string|max:6'
+            ],
+            'update' => [
+                'chave' => 'required|string|max:255',
+                'acao' => 'required|string|max:6',
+                'idCache' => 'required|integer|exists:cache,id'
+            ]
         ];
     }
 }
