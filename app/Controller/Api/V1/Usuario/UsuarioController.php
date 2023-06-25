@@ -73,14 +73,15 @@ class UsuarioController
             $userId = $this->usuarioPersistence->insertGetId($inputs);
 
             if ($inputs['isAdmin']) {
-                $this->adminValidation->validate(['userId' => $userId]);
+                $this->adminValidation->validate(['userId' => $userId], 'insert');
                 $this->adminPersistence->insert($userId);
+                $this->transaction->commit();
                 return $response->json([
                     'success' => true,
                     'message' => 'Usuário inserido com sucesso.'
                 ])->withStatus(201);
             }
-            $this->clienteValidation->validate(['userId' => $userId]);
+            $this->clienteValidation->validate(['userId' => $userId], 'insert');
             $this->clientePersistence->insert($userId);
             $this->transaction->commit();
 
@@ -108,7 +109,7 @@ class UsuarioController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => $th->getMessage()
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -136,7 +137,7 @@ class UsuarioController
             return $response->json([
                 'success' => true,
                 'message' => 'Usuário alterado com sucesso.'
-            ])->withStatus(200);
+            ])->withStatus(201);
         } catch (\InvalidArgumentException $in) {
             return $response->json(json_decode($in->getMessage()))->withStatus(422);
         } catch (UsuarioException $ue) {
@@ -147,7 +148,7 @@ class UsuarioController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => $th->getMessage()
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
