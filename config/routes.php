@@ -20,15 +20,20 @@ Router::get('/favicon.ico', function () {
 
 Router::addGroup('/api', function () {
     Router::addGroup('/v1', function () {
-        Router::put('/usuario/update/{userId}', 'App\Controller\Api\V1\Usuario\UsuarioController@update');
-        Router::post('/usuario/register', 'App\Controller\Api\V1\Usuario\UsuarioController@register');
-        Router::post('/aplicacao', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@create');
-        Router::put('/aplicacao/{idAplicacao}', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@update');
-        Router::delete('/aplicacao/{idAplicacao}', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@delete');
+        Router::addGroup('/usuario', function () {
+            Router::put('/update/{userId}', 'App\Controller\Api\V1\Usuario\UsuarioController@update');
+            Router::post('/register', 'App\Controller\Api\V1\Usuario\UsuarioController@register');
+            Router::delete('/cliente/{idCliente}', 'App\Controller\Api\V1\Usuario\Cliente\ClienteController@delete');
+            Router::delete('/admin/{idAdmin}', 'App\Controller\Api\V1\Usuario\Admin\AdminController@delete');
+        });
+        Router::addGroup('/aplicacao', function () {
+            Router::post('', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@create');
+            Router::put('/{idAplicacao}', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@update');
+            Router::delete('/{idAplicacao}', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@delete');
+        });
 
         Router::addGroup('/monitoramento', function () {
             Router::delete('/{idMonitoramento}', 'App\Controller\Api\V1\Monitoramento\MonitoramentoController@delete');
-
             Router::post('/cache', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@create');
             Router::put('/cache/{idCache}', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@update');
             Router::post('/depuracao', 'App\Controller\Api\V1\Monitoramento\Depuracao\DepuracaoController@create');
