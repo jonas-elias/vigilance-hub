@@ -55,11 +55,11 @@ class ErroController
         ];
 
         try {
-            $this->monitoramentoValidation->validate($inputsMonitoramento);
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'insert');
             $this->transaction->beginTransaction();
             $id = $this->monitoramentoPersistence->insertGetId($inputsMonitoramento);
             $inputsErro = array_merge($inputsErro, ['idMonitoramento' => $id]);
-            $this->erroValidation->validate($inputsErro);
+            $this->erroValidation->validate($inputsErro, 'insert');
             $this->erroPersistence->insertGetId($inputsErro);
             $this->transaction->commit();
             return $response->json([
@@ -68,6 +68,53 @@ class ErroController
             ])->withStatus(201);
         } catch (\InvalidArgumentException $ie) {
             $this->transaction->rollBack();
+            return $response->json(json_decode($ie->getMessage()))->withStatus(400);
+        } catch (MonitoramentoException $ae) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($ae->getMessage()))->withStatus(400);
+        } catch (ErroException $de) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($de->getMessage()))->withStatus(400);
+        } catch (\Throwable $th) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
+            ]))->withStatus(500);
+        }
+    }
+
+    /**
+     * Method to update erro monitoramento
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param int $idErro
+     */
+    public function update(RequestInterface $request, ResponseInterface $response, int $idErro)
+    {
+        $inputsMonitoramento = [
+            'aplicacaoToken' => $request->header('aplicacaoToken'),
+            'clienteToken' => $request->header('clienteToken')
+        ];
+
+        $inputsErro = [
+            'nivel' => $request->input('nivel'),
+            'localizacao' => $request->input('localizacao'),
+            'stacktrace' => $request->input('stacktrace'),
+            'idErro' => $idErro
+        ];
+
+        try {
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
+            $this->erroValidation->validate($inputsErro, 'update');
+            $this->transaction->beginTransaction();
+            $this->erroPersistence->update($inputsErro, $inputsErro['idErro']);
+            $this->transaction->commit();
+            return $response->json([
+                'success' => true,
+                'message' => 'Monitoramento de erro alterado com sucesso.'
+            ])->withStatus(200);
+        } catch (\InvalidArgumentException $ie) {
             return $response->json(json_decode($ie->getMessage()))->withStatus(400);
         } catch (MonitoramentoException $ae) {
             $this->transaction->rollBack();
