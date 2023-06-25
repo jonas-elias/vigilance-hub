@@ -32,4 +32,29 @@ class LogPersistence extends Database
             ]));
         }
     }
+
+    /**
+     * Method to update log monitoramento in database
+     *
+     * @param array $inputs
+     * @param int $idLog
+     * @return void
+     */
+    public function update(array $inputs, int $idLog): void
+    {
+        try {
+            $this->getDb()->table('log')
+                ->where('id', $idLog)
+                ->update([
+                    'nivel' => $inputs['nivel'],
+                    'mensagem' => $inputs['mensagem']
+                ]);
+        } catch (\Throwable $th) {
+            throw new LogException(json_encode([
+                'erros' => [
+                    'Erro ao alterar o monitoramento de log.'
+                ]
+            ]));
+        }
+    }
 }
