@@ -13,13 +13,15 @@ class AdminValidation extends Validator
      * Method to validation inputs admin usuario
      *
      * @param array $inputs
+     * @param ?string $method = null
      * @return void
      */
-    public function validate(array $inputs): void
+    public function validate(array $inputs, ?string $method = null): void
     {
         $validation = $this->validator->make([
-            'userId' => $inputs['userId'],
-        ], $this->rules());
+            'userId' => $inputs['userId'] ?? '',
+            'idAdmin' => $inputs['idAdmin'] ?? ''
+        ], $this->rules()[$method]);
 
         if ($validation->fails()) {
             throw new \InvalidArgumentException(json_encode($validation->errors()));
@@ -34,7 +36,12 @@ class AdminValidation extends Validator
     public function rules(): array
     {
         return [
-            'userId' => 'required|integer|exists:usuario,id'
+            'insert' => [
+                'userId' => 'required|integer|exists:usuario,id'
+            ],
+            'delete' => [
+                'idAdmin' => 'required|integer|exists:admin,id'
+            ]
         ];
     }
 }
