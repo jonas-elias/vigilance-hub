@@ -93,23 +93,17 @@ class UsuarioController
             return $response->json(json_decode($in->getMessage()))->withStatus(422);
         } catch (UsuarioException $ue) {
             $this->transaction->rollBack();
-            return $response->json(([
-                'errors' => $ue->getMessage()
-            ]))->withStatus(400);
+            return $response->json($ue->getMessage())->withStatus(400);
         } catch (AdminException $ae) {
             $this->transaction->rollBack();
-            return $response->json(([
-                'errors' => $ae->getMessage()
-            ]))->withStatus(400);
+            return $response->json($ae->getMessage())->withStatus(400);
         } catch (ClienteException $ce) {
             $this->transaction->rollBack();
-            return $response->json(([
-                'errors' => $ce->getMessage()
-            ]))->withStatus(400);
+            return $response->json($ce->getMessage())->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -143,12 +137,12 @@ class UsuarioController
         } catch (UsuarioException $ue) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => $ue->getMessage()
+                'erros' => $ue->getMessage()
             ]))->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

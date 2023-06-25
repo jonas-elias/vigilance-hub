@@ -53,7 +53,7 @@ class AdminController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

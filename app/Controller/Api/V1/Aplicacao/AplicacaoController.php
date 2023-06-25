@@ -60,7 +60,7 @@ class AplicacaoController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -96,7 +96,7 @@ class AplicacaoController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -128,7 +128,7 @@ class AplicacaoController
             $this->transaction->rollBack();
             dd($th->getMessage());
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

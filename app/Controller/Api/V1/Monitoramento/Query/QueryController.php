@@ -79,7 +79,7 @@ class QueryController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -108,7 +108,11 @@ class QueryController
 
         try {
             $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
-            $this->queryValidation->validate($inputsQuery, 'update');
+            $this->queryValidation->validate(array_merge($inputsQuery, ['credenciais' => [
+                'aplicacaoToken' => $request->header('aplicacaoToken'),
+                'clienteToken' => $request->header('clienteToken'),
+                'idQuery' => $inputsQuery['idQuery']
+            ]]), 'update');
             $this->transaction->beginTransaction();
             $this->queryPersistence->update($inputsQuery, $inputsQuery['idQuery']);
             $this->transaction->commit();
@@ -128,7 +132,7 @@ class QueryController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

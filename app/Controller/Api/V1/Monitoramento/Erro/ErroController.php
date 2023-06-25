@@ -78,7 +78,7 @@ class ErroController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -106,7 +106,11 @@ class ErroController
 
         try {
             $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
-            $this->erroValidation->validate($inputsErro, 'update');
+            $this->erroValidation->validate(array_merge($inputsErro, ['credenciais' => [
+                'aplicacaoToken' => $request->header('aplicacaoToken'),
+                'clienteToken' => $request->header('clienteToken'),
+                'idErro' => $inputsErro['idErro']
+            ]]), 'update');
             $this->transaction->beginTransaction();
             $this->erroPersistence->update($inputsErro, $inputsErro['idErro']);
             $this->transaction->commit();
@@ -125,7 +129,7 @@ class ErroController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

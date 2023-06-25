@@ -53,7 +53,7 @@ class MonitoramentoController
             $this->transaction->rollBack();
             dd($th->getMessage());
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

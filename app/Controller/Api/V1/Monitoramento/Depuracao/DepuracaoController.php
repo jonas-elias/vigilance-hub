@@ -76,7 +76,7 @@ class DepuracaoController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -102,8 +102,12 @@ class DepuracaoController
 
         try {
             $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
+            $this->depuracaoValidation->validate(array_merge($inputsDepuracao, ['credenciais' => [
+                'aplicacaoToken' => $request->header('aplicacaoToken'),
+                'clienteToken' => $request->header('clienteToken'),
+                'idDepuracao' => $inputsDepuracao['idDepuracao']
+            ]]), 'update');
             $this->transaction->beginTransaction();
-            $this->depuracaoValidation->validate($inputsDepuracao, 'update');
             $this->depuracaoPersistence->update($inputsDepuracao, $inputsDepuracao['idDepuracao']);
             $this->transaction->commit();
             return $response->json([
@@ -122,7 +126,7 @@ class DepuracaoController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

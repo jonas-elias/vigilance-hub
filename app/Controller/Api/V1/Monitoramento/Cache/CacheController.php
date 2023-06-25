@@ -75,7 +75,7 @@ class CacheController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -102,7 +102,11 @@ class CacheController
 
         try {
             $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
-            $this->cacheValidation->validate($inputsCache, 'update');
+            $this->cacheValidation->validate(array_merge($inputsCache, ['credenciais' => [
+                'aplicacaoToken' => $request->header('aplicacaoToken'),
+                'clienteToken' => $request->header('clienteToken'),
+                'idCache' => $idCache
+            ]]), 'update');
             $this->transaction->beginTransaction();
             $this->cachePersistence->update($inputsCache, $idCache);
             $this->transaction->commit();
@@ -119,8 +123,9 @@ class CacheController
             return $response->json(json_decode($ae->getMessage()))->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
+            dd($th->getMessage());
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }

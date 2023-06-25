@@ -77,7 +77,7 @@ class LogController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
@@ -104,7 +104,11 @@ class LogController
 
         try {
             $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
-            $this->logValidation->validate($inputsLog, 'update');
+            $this->logValidation->validate(array_merge($inputsLog, ['credenciais' => [
+                'aplicacaoToken' => $request->header('aplicacaoToken'),
+                'clienteToken' => $request->header('clienteToken'),
+                'idLog' => $inputsLog['idLog']
+            ]]), 'update');
             $this->transaction->beginTransaction();
             $this->logPersistence->update($inputsLog, $inputsLog['idLog']);
             $this->transaction->commit();
@@ -124,7 +128,7 @@ class LogController
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
             return $response->json(([
-                'errors' => 'Ocorreu algum erro interno na aplicação.'
+                'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
         }
     }
