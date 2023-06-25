@@ -54,17 +54,62 @@ class CacheController
         ];
 
         try {
-            $this->monitoramentoValidation->validate($inputsMonitoramento);
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'insert');
             $this->transaction->beginTransaction();
             $id = $this->monitoramentoPersistence->insertGetId($inputsMonitoramento);
             $inputsCache = array_merge($inputsCache, ['idMonitoramento' => $id]);
-            $this->cacheValidation->validate($inputsCache);
+            $this->cacheValidation->validate($inputsCache, 'insert');
             $this->cachePersistence->insertGetId($inputsCache);
             $this->transaction->commit();
             return $response->json([
                 'success' => true,
                 'message' => 'Monitoramento de cache criado com sucesso.'
             ])->withStatus(201);
+        } catch (\InvalidArgumentException $in) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($in->getMessage()))->withStatus(400);
+        } catch (CacheException $ae) {
+            return $response->json(json_decode($ae->getMessage()))->withStatus(400);
+        } catch (MonitoramentoException $ae) {
+            return $response->json(json_decode($ae->getMessage()))->withStatus(400);
+        } catch (\Throwable $th) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
+            ]))->withStatus(500);
+        }
+    }
+
+    /**
+     * Method to update cache monitoramento
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param int $idCache
+     */
+    public function update(RequestInterface $request, ResponseInterface $response, int $idCache)
+    {
+        $inputsMonitoramento = [
+            'aplicacaoToken' => $request->header('aplicacaoToken'),
+            'clienteToken' => $request->header('clienteToken')
+        ];
+
+        $inputsCache = [
+            'chave' => $request->input('chave'),
+            'acao' => $request->input('acao'),
+            'idCache' => $idCache
+        ];
+
+        try {
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
+            $this->cacheValidation->validate($inputsCache, 'update');
+            $this->transaction->beginTransaction();
+            $this->cachePersistence->update($inputsCache, $idCache);
+            $this->transaction->commit();
+            return $response->json([
+                'success' => true,
+                'message' => 'Monitoramento de cache alterado com sucesso.'
+            ])->withStatus(200);
         } catch (\InvalidArgumentException $in) {
             $this->transaction->rollBack();
             return $response->json(json_decode($in->getMessage()))->withStatus(400);
