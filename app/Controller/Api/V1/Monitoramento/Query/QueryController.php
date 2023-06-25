@@ -56,17 +56,66 @@ class QueryController
         ];
 
         try {
-            $this->monitoramentoValidation->validate($inputsMonitoramento);
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'insert');
             $this->transaction->beginTransaction();
             $id = $this->monitoramentoPersistence->insertGetId($inputsMonitoramento);
             $inputsQuery = array_merge($inputsQuery, ['idMonitoramento' => $id]);
-            $this->queryValidation->validate($inputsQuery);
+            $this->queryValidation->validate($inputsQuery, 'insert');
             $this->queryPersistence->insertGetId($inputsQuery);
             $this->transaction->commit();
             return $response->json([
                 'success' => true,
                 'message' => 'Monitoramento de query criado com sucesso.'
             ])->withStatus(201);
+        } catch (\InvalidArgumentException $ie) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($ie->getMessage()))->withStatus(400);
+        } catch (MonitoramentoException $ae) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($ae->getMessage()))->withStatus(400);
+        } catch (QueryException $de) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($de->getMessage()))->withStatus(400);
+        } catch (\Throwable $th) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
+            ]))->withStatus(500);
+        }
+    }
+
+    /**
+     * Method to update query monitoramento
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param int $idQuery
+     */
+    public function update(RequestInterface $request, ResponseInterface $response, int $idQuery)
+    {
+        $inputsMonitoramento = [
+            'aplicacaoToken' => $request->header('aplicacaoToken'),
+            'clienteToken' => $request->header('clienteToken')
+        ];
+
+        $inputsQuery = [
+            'duracao' => $request->input('duracao'),
+            'conector' => $request->input('conector'),
+            'localizacao' => $request->input('localizacao'),
+            'query' => $request->input('query'),
+            'idQuery' => $idQuery
+        ];
+
+        try {
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
+            $this->queryValidation->validate($inputsQuery, 'update');
+            $this->transaction->beginTransaction();
+            $this->queryPersistence->update($inputsQuery, $inputsQuery['idQuery']);
+            $this->transaction->commit();
+            return $response->json([
+                'success' => true,
+                'message' => 'Monitoramento de query alterado com sucesso.'
+            ])->withStatus(200);
         } catch (\InvalidArgumentException $ie) {
             $this->transaction->rollBack();
             return $response->json(json_decode($ie->getMessage()))->withStatus(400);
