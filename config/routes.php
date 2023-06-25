@@ -24,18 +24,23 @@ Router::addGroup('/api', function () {
         Router::post('/usuario/register', 'App\Controller\Api\V1\Usuario\UsuarioController@register');
         Router::post('/aplicacao', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@create');
         Router::put('/aplicacao/{idAplicacao}', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@update');
-        Router::post('/monitoramento/cache', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@create');
-        Router::put('/monitoramento/cache/{idCache}', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@update');
-        Router::post('/monitoramento/depuracao', 'App
-        \Controller\Api\V1\Monitoramento\Depuracao\DepuracaoController@create');
-        Router::put('/monitoramento/depuracao/{idDepuracao}', 'App\Controller\Api\V1\Monitoramento\Depuracao\DepuracaoController@update');
-        Router::post('/monitoramento/erro', 'App\Controller\Api\V1\Monitoramento\Erro\ErroController@create');
-        Router::put('/monitoramento/erro/{idErro}', 'App\Controller\Api\V1\Monitoramento\Erro\ErroController@update');
-        Router::post('/monitoramento/log', 'App\Controller\Api\V1\Monitoramento\Log\LogController@create');
-        Router::put('/monitoramento/log/{idLog}', 'App\Controller\Api\V1\Monitoramento\Log\LogController@update');
-        Router::post('/monitoramento/query', 'App\Controller\Api\V1\Monitoramento\Query\QueryController@create');
-        Router::put('/monitoramento/query/{idQuery}', 'App\Controller\Api\V1\Monitoramento\Query\QueryController@update');
-        Router::post('/monitoramento/request', 'App\Controller\Api\V1\Monitoramento\Request\RequestController@create');
-        Router::put('/monitoramento/request/{idRequest}', 'App\Controller\Api\V1\Monitoramento\Request\RequestController@update');
+        Router::delete('/aplicacao/{idAplicacao}', 'App\Controller\Api\V1\Aplicacao\AplicacaoController@delete');
+
+        Router::addGroup('/monitoramento', function () {
+            Router::delete('/{idMonitoramento}', 'App\Controller\Api\V1\Monitoramento\MonitoramentoController@delete');
+
+            Router::post('/cache', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@create');
+            Router::put('/cache/{idCache}', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@update');
+            Router::post('/depuracao', 'App\Controller\Api\V1\Monitoramento\Depuracao\DepuracaoController@create');
+            Router::put('/depuracao/{idDepuracao}', 'App\Controller\Api\V1\Monitoramento\Depuracao\DepuracaoController@update');
+            Router::post('/erro', 'App\Controller\Api\V1\Monitoramento\Erro\ErroController@create');
+            Router::put('/erro/{idErro}', 'App\Controller\Api\V1\Monitoramento\Erro\ErroController@update');
+            Router::post('/log', 'App\Controller\Api\V1\Monitoramento\Log\LogController@create');
+            Router::put('/log/{idLog}', 'App\Controller\Api\V1\Monitoramento\Log\LogController@update');
+            Router::post('/query', 'App\Controller\Api\V1\Monitoramento\Query\QueryController@create');
+            Router::put('/query/{idQuery}', 'App\Controller\Api\V1\Monitoramento\Query\QueryController@update');
+            Router::post('/request', 'App\Controller\Api\V1\Monitoramento\Request\RequestController@create');
+            Router::put('/request/{idRequest}', 'App\Controller\Api\V1\Monitoramento\Request\RequestController@update');
+        });
     });
 });
