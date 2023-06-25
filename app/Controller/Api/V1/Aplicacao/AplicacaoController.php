@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\V1\Aplicacao;
 
+use App\Api\V1\Aplicacao\AplicacaoDeletion;
 use App\Api\V1\Aplicacao\AplicacaoPersistence;
 use App\Api\V1\Aplicacao\Exception\AplicacaoException;
 use App\Api\V1\Aplicacao\Validation\AplicacaoValidation;
@@ -22,6 +23,9 @@ class AplicacaoController
 
     #[Inject]
     protected AplicacaoPersistence $aplicacaoPersistence;
+
+    #[Inject]
+    protected AplicacaoDeletion $aplicacaoDeletion;
 
     #[Inject]
     protected Transaction $transaction;
@@ -91,6 +95,38 @@ class AplicacaoController
             return $response->json(json_decode($ae->getMessage()))->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
+            ]))->withStatus(500);
+        }
+    }
+
+    /**
+     * Method to delete application
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param int $idAplicacao
+     */
+    public function delete(RequestInterface $request, ResponseInterface $response, int $idAplicacao)
+    {
+        try {
+            $this->aplicacaoValidation->validate(['idAplicacao' => $idAplicacao], 'delete');
+            $this->transaction->beginTransaction();
+            $this->aplicacaoDeletion->delete($idAplicacao);
+            $this->transaction->commit();
+            return $response->json([
+                'success' => true,
+                'message' => 'Aplicação excluída com sucesso.'
+            ])->withStatus(200);
+        } catch (\InvalidArgumentException $in) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($in->getMessage()))->withStatus(400);
+        } catch (AplicacaoException $ae) {
+            return $response->json(json_decode($ae->getMessage()))->withStatus(400);
+        } catch (\Throwable $th) {
+            $this->transaction->rollBack();
+            dd($th->getMessage());
             return $response->json(([
                 'errors' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);

@@ -3,6 +3,7 @@
 namespace App\Api\V1\Aplicacao\Validation;
 
 use App\Api\V1\Validator\Validator;
+use Hyperf\DbConnection\Db;
 
 /**
  * class AplicacaoValidation
@@ -44,6 +45,15 @@ class AplicacaoValidation extends Validator
             'update' => [
                 'idAplicacao' => 'required|integer|exists:aplicacao,id',
                 'nome' => 'required|string',
+            ],
+            'delete' => [
+                'idAplicacao' => [
+                    'required', 'integer', 'exists:aplicacao,id', function ($attribute, $value, $fail) {
+                        if ((Db::table('monitoramento')->where('id_aplicacao', $value)->get()->first()['id'] ?? null)) {
+                            $fail('O registro não pode ser excluído, pois o id_aplicacao existe na tabela de monitoramento.');
+                        }
+                    }
+                ],
             ]
         ];
     }

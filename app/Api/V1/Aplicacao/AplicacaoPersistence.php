@@ -41,7 +41,7 @@ class AplicacaoPersistence extends Database
      *
      * @param array $inputs
      * @param int $idAplicacao
-     * @return int
+     * @return void
      */
     public function update(array $inputs, int $idAplicacao): void
     {
