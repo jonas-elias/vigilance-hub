@@ -27,7 +27,11 @@ class MonitoramentoValidation extends Validator
         ], $this->rules()[$method]);
 
         if ($validation->fails()) {
-            throw new \InvalidArgumentException(json_encode($validation->errors()));
+            throw new \InvalidArgumentException(json_encode([
+                'erros' => [
+                    $validation->errors()
+                ]
+            ]));
         }
     }
 
@@ -49,7 +53,7 @@ class MonitoramentoValidation extends Validator
             'update' => [
                 'clienteToken' => 'required|string|exists:cliente,token',
                 'aplicacaoToken' => 'required|string|exists:aplicacao,token'
-            ] 
+            ]
         ];
     }
 }

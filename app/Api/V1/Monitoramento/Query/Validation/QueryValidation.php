@@ -3,6 +3,7 @@
 namespace App\Api\V1\Monitoramento\Query\Validation;
 
 use App\Api\V1\Validator\Validator;
+use Hyperf\DbConnection\Db;
 
 /**
  * class QueryValidation
@@ -24,11 +25,14 @@ class QueryValidation extends Validator
             'conector' => $inputs['conector'] ?? '',
             'localizacao' => $inputs['localizacao'] ?? '',
             'query' => $inputs['query'] ?? '',
-            'idQuery' => $inputs['idQuery']
+            'idQuery' => $inputs['idQuery'] ?? '',
+            'credenciais' => $inputs['credenciais'] ?? ''
         ], $this->rules()[$method]);
 
         if ($validation->fails()) {
-            throw new \InvalidArgumentException(json_encode($validation->errors()));
+            throw new \InvalidArgumentException(json_encode([
+                'erros' => [$validation->errors()]
+            ]));
         }
     }
 
@@ -52,7 +56,20 @@ class QueryValidation extends Validator
                 'duracao' => 'required|numeric',
                 'conector' => 'required|string|max:10',
                 'localizacao' => 'required|string|max:255',
-                'query' => 'required|string|max:8192'
+                'query' => 'required|string|max:8192',
+                'credenciais' => [function ($attribute, $value, $fail) {
+                    if (!(Db::table('query as q')
+                        ->join('monitoramento as m', 'q.id_monitoramento', '=', 'm.id')
+                        ->join('aplicacao as a', 'm.id_aplicacao', '=', 'a.id')
+                        ->join('cliente as cli', 'a.id_cliente', '=', 'cli.id')
+                        ->where('cli.token', $value['clienteToken'])
+                        ->where('a.token', $value['aplicacaoToken'])
+                        ->where('q.id', $value['idQuery'])
+                        ->get('q.id')
+                        ->first()['id'] ?? null)) {
+                        $fail('O cliente não pode alterar o monitoramento de query a partir do token de outra aplicação.');
+                    }
+                }]
             ]
         ];
     }

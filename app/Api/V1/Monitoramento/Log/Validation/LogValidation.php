@@ -3,6 +3,7 @@
 namespace App\Api\V1\Monitoramento\Log\Validation;
 
 use App\Api\V1\Validator\Validator;
+use Hyperf\DbConnection\Db;
 
 /**
  * class LogValidation
@@ -22,11 +23,14 @@ class LogValidation extends Validator
             'idMonitoramento' => $inputs['idMonitoramento'] ?? '',
             'nivel' => $inputs['nivel'] ?? '',
             'mensagem' => $inputs['mensagem'] ?? '',
-            'idLog' => $inputs['idLog'] ?? ''
+            'idLog' => $inputs['idLog'] ?? '',
+            'credenciais' => $inputs['credenciais'] ?? ''
         ], $this->rules()[$method]);
 
         if ($validation->fails()) {
-            throw new \InvalidArgumentException(json_encode($validation->errors()));
+            throw new \InvalidArgumentException(json_encode([
+                'erros' => [$validation->errors()]
+            ]));
         }
     }
 
@@ -46,7 +50,20 @@ class LogValidation extends Validator
             'update' => [
                 'idLog' => 'required|integer|exists:log,id',
                 'nivel' => 'required|string|max:10',
-                'mensagem' => 'required|string|max:4096'
+                'mensagem' => 'required|string|max:4096',
+                'credenciais' => [function ($attribute, $value, $fail) {
+                    if (!(Db::table('log as l')
+                        ->join('monitoramento as m', 'l.id_monitoramento', '=', 'm.id')
+                        ->join('aplicacao as a', 'm.id_aplicacao', '=', 'a.id')
+                        ->join('cliente as cli', 'a.id_cliente', '=', 'cli.id')
+                        ->where('cli.token', $value['clienteToken'])
+                        ->where('a.token', $value['aplicacaoToken'])
+                        ->where('l.id', $value['idLog'])
+                        ->get('l.id')
+                        ->first()['id'] ?? null)) {
+                        $fail('O cliente não pode alterar o monitoramento de log a partir do token de outra aplicação.');
+                    }
+                }]
             ]
         ];
     }
