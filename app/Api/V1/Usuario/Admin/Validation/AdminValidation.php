@@ -24,7 +24,9 @@ class AdminValidation extends Validator
         ], $this->rules()[$method]);
 
         if ($validation->fails()) {
-            throw new \InvalidArgumentException(json_encode($validation->errors()));
+            throw new \InvalidArgumentException(json_encode([
+                'erros' => [$validation->errors()]
+            ]));
         }
     }
 

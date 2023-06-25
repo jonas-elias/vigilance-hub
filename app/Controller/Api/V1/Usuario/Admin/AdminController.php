@@ -43,7 +43,7 @@ class AdminController
             return $response->json([
                 'success' => true,
                 'message' => 'Admin excluído com sucesso.'
-            ])->withStatus(201);
+            ])->withStatus(200);
         } catch (\InvalidArgumentException $in) {
             $this->transaction->rollBack();
             return $response->json(json_decode($in->getMessage()))->withStatus(400);

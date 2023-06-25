@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Api\V1\Monitoramento\Validation;
 
 use App\Api\V1\Validator\Validator;
+use Hyperf\DbConnection\Db;
 
 /**
  * class MonitoramentoValidation
@@ -23,7 +24,8 @@ class MonitoramentoValidation extends Validator
         $validation = $this->validator->make([
             'clienteToken' => $inputs['clienteToken'] ?? '',
             'aplicacaoToken' => $inputs['aplicacaoToken'] ?? '',
-            'idMonitoramento' => $inputs['idMonitoramento'] ?? ''
+            'idMonitoramento' => $inputs['idMonitoramento'] ?? '',
+            'credenciais' => $inputs['credenciais'] ?? ''
         ], $this->rules()[$method]);
 
         if ($validation->fails()) {
@@ -48,7 +50,21 @@ class MonitoramentoValidation extends Validator
                 'aplicacaoToken' => 'required|string|exists:aplicacao,token'
             ],
             'delete' => [
-                'idMonitoramento' => 'required|integer|exists:monitoramento,id'
+                'idMonitoramento' => 'required|integer|exists:monitoramento,id',
+                'clienteToken' => 'required|string|exists:cliente,token',
+                'aplicacaoToken' => 'required|string|exists:aplicacao,token',
+                'credenciais' => [function ($attribute, $value, $fail) {
+                    if (!(Db::table('monitoramento as m')
+                        ->join('aplicacao as a', 'm.id_aplicacao', '=', 'a.id')
+                        ->join('cliente as cli', 'a.id_cliente', '=', 'cli.id')
+                        ->where('cli.token', $value['clienteToken'])
+                        ->where('a.token', $value['aplicacaoToken'])
+                        ->where('m.id', $value['idMonitoramento'])
+                        ->get('m.id')
+                        ->first()['id'] ?? null)) {
+                        $fail('O cliente não pode deletar o monitoramento de recursos a partir do token de outra aplicação.');
+                    }
+                }]
             ],
             'update' => [
                 'clienteToken' => 'required|string|exists:cliente,token',

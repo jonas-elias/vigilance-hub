@@ -19,7 +19,7 @@ class MonitoramentoController
 {
     #[Inject]
     protected Transaction $transaction;
-    
+
     #[Inject]
     protected MonitoramentoValidation $monitoramentoValidation;
 
@@ -35,8 +35,18 @@ class MonitoramentoController
      */
     public function delete(RequestInterface $request, ResponseInterface $response, int $idMonitoramento)
     {
+        $inputsMonitoramento = [
+            'aplicacaoToken' => $request->header('aplicacaoToken'),
+            'clienteToken' => $request->header('clienteToken'),
+            'idMonitoramento' => $idMonitoramento
+        ];
+
         try {
-            $this->monitoramentoValidation->validate(['idMonitoramento' => $idMonitoramento], 'delete');
+            $this->monitoramentoValidation->validate(array_merge($inputsMonitoramento, ['credenciais' => [
+                'aplicacaoToken' => $request->header('aplicacaoToken'),
+                'clienteToken' => $request->header('clienteToken'),
+                'idMonitoramento' => $inputsMonitoramento['idMonitoramento']
+            ]]), 'delete');
             $this->transaction->beginTransaction();
             $this->monitoramentoDeletion->delete($idMonitoramento);
             $this->transaction->commit();

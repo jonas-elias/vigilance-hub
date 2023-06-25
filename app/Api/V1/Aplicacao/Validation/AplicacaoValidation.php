@@ -22,11 +22,14 @@ class AplicacaoValidation extends Validator
         $validation = $this->validator->make([
             'idCliente' => $inputs['idCliente'] ?? '',
             'nome' => $inputs['nome'] ?? '',
-            'idAplicacao' => $inputs['idAplicacao'] ?? ''
+            'idAplicacao' => $inputs['idAplicacao'] ?? '',
+            'clienteToken' => $inputs['clienteToken'] ?? ''
         ], $this->rules()[$method]);
 
         if ($validation->fails()) {
-            throw new \InvalidArgumentException(json_encode($validation->errors()));
+            throw new \InvalidArgumentException(json_encode([
+                'erros' => [$validation->errors()]
+            ]));
         }
     }
 
@@ -47,6 +50,7 @@ class AplicacaoValidation extends Validator
                 'nome' => 'required|string',
             ],
             'delete' => [
+                'clienteToken' => 'required|string|exists:cliente,token',
                 'idAplicacao' => [
                     'required', 'integer', 'exists:aplicacao,id', function ($attribute, $value, $fail) {
                         if ((Db::table('monitoramento')->where('id_aplicacao', $value)->get()->first()['id'] ?? null)) {

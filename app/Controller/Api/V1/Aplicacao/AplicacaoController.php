@@ -110,8 +110,13 @@ class AplicacaoController
      */
     public function delete(RequestInterface $request, ResponseInterface $response, int $idAplicacao)
     {
+        $inputsAplicacao = [
+            'idAplicacao' => $idAplicacao,
+            'clienteToken' => $request->header('clienteToken')
+        ];
+
         try {
-            $this->aplicacaoValidation->validate(['idAplicacao' => $idAplicacao], 'delete');
+            $this->aplicacaoValidation->validate($inputsAplicacao, 'delete');
             $this->transaction->beginTransaction();
             $this->aplicacaoDeletion->delete($idAplicacao);
             $this->transaction->commit();
