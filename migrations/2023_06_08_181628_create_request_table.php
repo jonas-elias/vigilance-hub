@@ -14,7 +14,7 @@ class CreateRequestTable extends Migration
         Schema::create('request', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_monitoramento');
-            $table->foreign('id_monitoramento')->on('monitoramento')->references('id');
+            $table->foreign('id_monitoramento')->on('monitoramento')->references('id')->onDelete('cascade');
             $table->string('metodo', 7);
             $table->string('uri');
             $table->integer('status');

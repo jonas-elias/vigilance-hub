@@ -14,7 +14,7 @@ class CreateErroTable extends Migration
         Schema::create('erro', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_monitoramento');
-            $table->foreign('id_monitoramento')->on('monitoramento')->references('id');
+            $table->foreign('id_monitoramento')->on('monitoramento')->references('id')->onDelete('cascade');
             $table->string('stacktrace', 8192);
             $table->string('nivel', 10);
             $table->string('localizacao');

@@ -14,7 +14,7 @@ class CreateDepuracaoTable extends Migration
         Schema::create('depuracao', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_monitoramento');
-            $table->foreign('id_monitoramento')->on('monitoramento')->references('id');
+            $table->foreign('id_monitoramento')->on('monitoramento')->references('id')->onDelete('cascade');
             $table->string('depuracao', 4096);
         });
     }
