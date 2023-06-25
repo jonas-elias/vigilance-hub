@@ -13,13 +13,13 @@ class MonitoramentoDeletion extends Database
     /**
      * Method to delete monitoramento in database
      *
-     * @param array $inputs
-     * @return int
+     * @param int $idMonitoramento
+     * @return void
      */
-    public function delete(int $idMonitoramento): int
+    public function delete(int $idMonitoramento): void
     {
         try {
-            return $this->getDb()->table('monitoramento')
+            $this->getDb()->table('monitoramento')
                 ->where('id', $idMonitoramento)
                 ->delete();
         } catch (\Throwable $th) {
