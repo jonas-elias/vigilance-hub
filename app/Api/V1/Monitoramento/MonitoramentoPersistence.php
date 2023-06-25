@@ -29,7 +29,6 @@ class MonitoramentoPersistence extends Database
                 'data_criacao' => date('Y-m-d H:m:s')
             ]);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             throw new MonitoramentoException(json_encode([
                 'erros' => [
                     'Erro ao inserir o monitoramento.'
