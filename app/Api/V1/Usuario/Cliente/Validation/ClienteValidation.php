@@ -3,6 +3,7 @@
 namespace App\Api\V1\Usuario\Cliente\Validation;
 
 use App\Api\V1\Validator\Validator;
+use Hyperf\DbConnection\Db;
 
 /**
  * class ClienteValidation
@@ -15,11 +16,12 @@ class ClienteValidation extends Validator
      * @param array $inputs
      * @return void
      */
-    public function validate(array $inputs): void
+    public function validate(array $inputs, ?string $method = null): void
     {
         $validation = $this->validator->make([
-            'userId' => $inputs['userId'],
-        ], $this->rules());
+            'userId' => $inputs['userId'] ?? '',
+            'idCliente' => $inputs['idCliente'] ?? ''
+        ], $this->rules()[$method]);
 
         if ($validation->fails()) {
             throw new \InvalidArgumentException(json_encode($validation->errors()));
@@ -34,7 +36,19 @@ class ClienteValidation extends Validator
     public function rules(): array
     {
         return [
-            'userId' => 'required|integer|exists:usuario,id'
+            'insert' => [
+                'userId' =>
+                'required|integer|exists:usuario,id'
+            ],
+            'delete' => [
+                'idCliente' => [
+                    'required', 'integer', 'exists:cliente,id', function ($attribute, $value, $fail) {
+                        if ((Db::table('aplicacao')->where('id_cliente', $value)->get()->first()['id'] ?? null)) {
+                            $fail('O registro não pode ser excluído, pois o id_cliente já existe na tabela de aplicação.');
+                        }
+                    }
+                ]
+            ]
         ];
     }
 }
