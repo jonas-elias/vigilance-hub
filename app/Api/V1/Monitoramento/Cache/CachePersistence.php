@@ -32,4 +32,29 @@ class CachePersistence extends Database
             ]));
         }
     }
+
+    /**
+     * Method to update cache monitoramento in database
+     *
+     * @param array $inputs
+     * @param int $cacheId
+     * @return void
+     */
+    public function update(array $inputs, int $cacheId): void
+    {
+        try {
+            $this->getDb()->table('cache')
+                ->where('id', '=', $cacheId)
+                ->update([
+                    'chave' => $inputs['chave'],
+                    'acao' => $inputs['acao']
+                ]);
+        } catch (\Throwable $th) {
+            throw new CacheException(json_encode([
+                'erros' => [
+                    'Erro ao fazer a alteração do monitoramento de cache.'
+                ]
+            ]));
+        }
+    }
 }
