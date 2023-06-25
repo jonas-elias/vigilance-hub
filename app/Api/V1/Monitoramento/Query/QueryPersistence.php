@@ -34,4 +34,31 @@ class QueryPersistence extends Database
             ]));
         }
     }
+
+    /**
+     * Method to update query monitoramento in database
+     *
+     * @param array $inputs
+     * @param int $idQuery
+     * @return void
+     */
+    public function update(array $inputs, int $idQuery): void
+    {
+        try {
+            $this->getDb()->table('query')
+            ->where('id', $idQuery)
+            ->update([
+                'duracao' => $inputs['duracao'],
+                'conector' => $inputs['conector'],
+                'localizacao' => $inputs['localizacao'],
+                'query' => $inputs['query']
+            ]);
+        } catch (\Throwable $th) {
+            throw new QueryException(json_encode([
+                'erros' => [
+                    'Erro ao alterar o monitoramento de query.'
+                ]
+            ]));
+        }
+    }
 }
