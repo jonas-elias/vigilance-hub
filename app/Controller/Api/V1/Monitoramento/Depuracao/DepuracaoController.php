@@ -53,17 +53,63 @@ class DepuracaoController
         ];
 
         try {
-            $this->monitoramentoValidation->validate($inputsMonitoramento);
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'insert');
             $this->transaction->beginTransaction();
             $id = $this->monitoramentoPersistence->insertGetId($inputsMonitoramento);
             $inputsDepuracao = array_merge($inputsDepuracao, ['idMonitoramento' => $id]);
-            $this->depuracaoValidation->validate($inputsDepuracao);
+            $this->depuracaoValidation->validate($inputsDepuracao, 'insert');
             $this->depuracaoPersistence->insertGetId($inputsDepuracao);
             $this->transaction->commit();
             return $response->json([
                 'success' => true,
                 'message' => 'Monitoramento de depuração criado com sucesso.'
             ])->withStatus(201);
+        } catch (\InvalidArgumentException $ie) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($ie->getMessage()))->withStatus(400);
+        } catch (MonitoramentoException $ae) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($ae->getMessage()))->withStatus(400);
+        } catch (DepuracaoException $de) {
+            $this->transaction->rollBack();
+            return $response->json(json_decode($de->getMessage()))->withStatus(400);
+        } catch (\Throwable $th) {
+            $this->transaction->rollBack();
+            return $response->json(([
+                'errors' => 'Ocorreu algum erro interno na aplicação.'
+            ]))->withStatus(500);
+        }
+    }
+
+    /**
+     * Method to update depuracao monitoramento
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param int $idDepuracao
+     */
+    public function update(RequestInterface $request, ResponseInterface $response, int $idDepuracao)
+    {
+        $inputsMonitoramento = [
+            'aplicacaoToken' => $request->header('aplicacaoToken'),
+            'clienteToken' => $request->header('clienteToken')
+        ];
+
+        $inputsDepuracao = [
+            'depuracao' => $request->input('depuracao'),
+            'idDepuracao' => $idDepuracao
+        ];
+
+        try {
+            $this->monitoramentoValidation->validate($inputsMonitoramento, 'update');
+            $this->transaction->beginTransaction();
+            $this->depuracaoValidation->validate($inputsDepuracao, 'update');
+            $this->depuracaoPersistence->update($inputsDepuracao, $inputsDepuracao['idDepuracao']);
+            $this->transaction->commit();
+            return $response->json([
+                'success' => true,
+                'message' => 'Monitoramento de depuração alterado com sucesso.'
+            ])->withStatus(200);
         } catch (\InvalidArgumentException $ie) {
             $this->transaction->rollBack();
             return $response->json(json_decode($ie->getMessage()))->withStatus(400);
