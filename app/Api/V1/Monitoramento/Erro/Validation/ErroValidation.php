@@ -13,16 +13,18 @@ class ErroValidation extends Validator
      * Method to validate application inputs
      *
      * @param array $inputs
+     * @param ?string $method = null
      * @return void
      */
-    public function validate(array $inputs): void
+    public function validate(array $inputs, ?string $method = null): void
     {
         $validation = $this->validator->make([
-            'idMonitoramento' => $inputs['idMonitoramento'],
-            'nivel' => $inputs['nivel'],
-            'localizacao' => $inputs['localizacao'],
-            'stacktrace' => $inputs['stacktrace'],
-        ], $this->rules());
+            'idMonitoramento' => $inputs['idMonitoramento'] ?? '',
+            'nivel' => $inputs['nivel'] ?? '',
+            'localizacao' => $inputs['localizacao'] ?? '',
+            'stacktrace' => $inputs['stacktrace'] ?? '',
+            'idErro' => $inputs['idErro']
+        ], $this->rules()[$method]);
 
         if ($validation->fails()) {
             throw new \InvalidArgumentException(json_encode($validation->errors()));
@@ -37,10 +39,18 @@ class ErroValidation extends Validator
     public function rules(): array
     {
         return [
-            'idMonitoramento' => 'required|integer|exists:monitoramento,id',
-            'nivel' => 'required|string|max:10',
-            'localizacao' => 'required|string|max:255',
-            'stacktrace' => 'required|string|max:8192',
+            'insert' => [
+                'idMonitoramento' => 'required|integer|exists:monitoramento,id',
+                'nivel' => 'required|string|max:10',
+                'localizacao' => 'required|string|max:255',
+                'stacktrace' => 'required|string|max:8192'
+            ],
+            'update' => [
+                'idErro' => 'required|integer|exists:erro,id',
+                'nivel' => 'required|string|max:10',
+                'localizacao' => 'required|string|max:255',
+                'stacktrace' => 'required|string|max:8192'
+            ]
         ];
     }
 }
