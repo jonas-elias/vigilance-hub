@@ -13,17 +13,19 @@ class QueryValidation extends Validator
      * Method to validate application inputs
      *
      * @param array $inputs
+     * @param ?string $method = null
      * @return void
      */
-    public function validate(array $inputs): void
+    public function validate(array $inputs, ?string $method = null): void
     {
         $validation = $this->validator->make([
-            'idMonitoramento' => $inputs['idMonitoramento'],
-            'duracao' => $inputs['duracao'],
-            'conector' => $inputs['conector'],
-            'localizacao' => $inputs['localizacao'],
-            'query' => $inputs['query']
-        ], $this->rules());
+            'idMonitoramento' => $inputs['idMonitoramento'] ?? '',
+            'duracao' => $inputs['duracao'] ?? '',
+            'conector' => $inputs['conector'] ?? '',
+            'localizacao' => $inputs['localizacao'] ?? '',
+            'query' => $inputs['query'] ?? '',
+            'idQuery' => $inputs['idQuery']
+        ], $this->rules()[$method]);
 
         if ($validation->fails()) {
             throw new \InvalidArgumentException(json_encode($validation->errors()));
@@ -38,11 +40,20 @@ class QueryValidation extends Validator
     public function rules(): array
     {
         return [
-            'idMonitoramento' => 'required|integer|exists:monitoramento,id',
-            'duracao' => 'required|numeric',
-            'conector' => 'required|string|max:10',
-            'localizacao' => 'required|string|max:255',
-            'query' => 'required|string|max:8192'
+            'insert' => [
+                'idMonitoramento' => 'required|integer|exists:monitoramento,id',
+                'duracao' => 'required|numeric',
+                'conector' => 'required|string|max:10',
+                'localizacao' => 'required|string|max:255',
+                'query' => 'required|string|max:8192'
+            ],
+            'update' => [
+                'idQuery' => 'required|integer|exists:query,id',
+                'duracao' => 'required|numeric',
+                'conector' => 'required|string|max:10',
+                'localizacao' => 'required|string|max:255',
+                'query' => 'required|string|max:8192'
+            ]
         ];
     }
 }
