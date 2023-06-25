@@ -13,14 +13,16 @@ class DepuracaoValidation extends Validator
      * Method to validate application inputs
      *
      * @param array $inputs
+     * @param ?string $method = null
      * @return void
      */
-    public function validate(array $inputs): void
+    public function validate(array $inputs, ?string $method = null): void
     {
         $validation = $this->validator->make([
-            'idMonitoramento' => $inputs['idMonitoramento'],
-            'depuracao' => $inputs['depuracao'],
-        ], $this->rules());
+            'idMonitoramento' => $inputs['idMonitoramento'] ?? '',
+            'depuracao' => $inputs['depuracao'] ?? '',
+            'idDepuracao' => $inputs['idDepuracao'] ?? ''
+        ], $this->rules()[$method]);
 
         if ($validation->fails()) {
             throw new \InvalidArgumentException(json_encode($validation->errors()));
@@ -35,8 +37,14 @@ class DepuracaoValidation extends Validator
     public function rules(): array
     {
         return [
-            'idMonitoramento' => 'required|integer|exists:monitoramento,id',
-            'depuracao' => 'required|string|max:4096',
+            'insert' => [
+                'idMonitoramento' => 'required|integer|exists:monitoramento,id',
+                'depuracao' => 'required|string|max:4096',
+            ],
+            'update' => [
+                'depuracao' => 'required|string|max:4096',
+                'idDepuracao' => 'required|integer|exists:depuracao,id'
+            ]
         ];
     }
 }
