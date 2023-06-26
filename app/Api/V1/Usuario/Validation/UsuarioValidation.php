@@ -26,7 +26,9 @@ class UsuarioValidation extends Validator
         ], $this->rules()[$method]);
 
         if ($validation->fails()) {
-            throw new \InvalidArgumentException(json_encode($validation->errors()));
+            throw new \InvalidArgumentException(json_encode([
+                'erros' => [$validation->errors()]
+            ]));
         }
     }
 
@@ -45,7 +47,7 @@ class UsuarioValidation extends Validator
             'insert' => [
                 'nome' => 'required|string|max:255',
                 'email' => 'required|string|email|unique:usuario,email|max:255',
-                'senha' => 'required|string|max:255',
+                'senha' => 'required|string|min:4|max:255',
                 'isAdmin' => 'required|boolean'
             ]
         ];

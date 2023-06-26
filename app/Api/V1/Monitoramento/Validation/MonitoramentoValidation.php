@@ -69,7 +69,38 @@ class MonitoramentoValidation extends Validator
             'update' => [
                 'clienteToken' => 'required|string|exists:cliente,token',
                 'aplicacaoToken' => 'required|string|exists:aplicacao,token'
-            ]
+            ],
+            'getTotalAplicacoes' => [
+                'clienteToken' => 'required|string|exists:cliente,token',
+            ],
+            'getTotalMonitoramentos' => [
+                'clienteToken' => 'required|string|exists:cliente,token',
+                'aplicacaoToken' => 'required|string|exists:aplicacao,token',
+                'credenciais' => [function ($attribute, $value, $fail) {
+                    if (!(Db::table('aplicacao as a')
+                        ->join('cliente as cli', 'a.id_cliente', '=', 'cli.id')
+                        ->where('cli.token', $value['clienteToken'])
+                        ->where('a.token', $value['aplicacaoToken'])
+                        ->get('a.id')
+                        ->first()['id'] ?? null)) {
+                        $fail('O cliente não está acessando o recurso com chaves válidas.');
+                    }
+                }],
+            ],
+            'getTotalMonitoramentoData' => [
+                'clienteToken' => 'required|string|exists:cliente,token',
+                'aplicacaoToken' => 'required|string|exists:aplicacao,token',
+                'credenciais' => [function ($attribute, $value, $fail) {
+                    if (!(Db::table('aplicacao as a')
+                        ->join('cliente as cli', 'a.id_cliente', '=', 'cli.id')
+                        ->where('cli.token', $value['clienteToken'])
+                        ->where('a.token', $value['aplicacaoToken'])
+                        ->get('a.id')
+                        ->first()['id'] ?? null)) {
+                        $fail('O cliente não está acessando o recurso com chaves válidas.');
+                    }
+                }],
+            ],
         ];
     }
 }
