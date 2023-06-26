@@ -123,7 +123,6 @@ class CacheController
             return $response->json(json_decode($ae->getMessage()))->withStatus(400);
         } catch (\Throwable $th) {
             $this->transaction->rollBack();
-            dd($th->getMessage());
             return $response->json(([
                 'erros' => 'Ocorreu algum erro interno na aplicação.'
             ]))->withStatus(500);
