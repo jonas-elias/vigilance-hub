@@ -46,11 +46,12 @@ class AplicacaoController
         try {
             $this->aplicacaoValidation->validate($inputs, 'insert');
             $this->transaction->beginTransaction();
-            $this->aplicacaoPersistence->insertGetId($inputs);
+            $data = $this->aplicacaoPersistence->insert($inputs);
             $this->transaction->commit();
             return $response->json([
                 'success' => true,
-                'message' => 'Aplicação inserida com sucesso.'
+                'message' => 'Aplicação inserida com sucesso.',
+                'applicationToken' => $data['applicationToken']
             ])->withStatus(201);
         } catch (\InvalidArgumentException $in) {
             $this->transaction->rollBack();

@@ -16,17 +16,22 @@ class AplicacaoPersistence extends Database
      * Method to insert application in database
      *
      * @param array $inputs
-     * @return int
+     * @return array
      */
-    public function insertGetId(array $inputs): int
+    public function insert(array $inputs): array
     {
         try {
-            return $this->getDb()->table('aplicacao')->insertGetId([
+            $aplicacaoToken = $this->aplicacaoToken();
+            $id = $this->getDb()->table('aplicacao')->insertGetId([
                 'id_cliente' => $inputs['idCliente'],
-                'token' => $this->aplicacaoToken(),
+                'token' => $aplicacaoToken,
                 'data_criacao' => date('Y-m-d h:m:s'),
                 'nome' => $inputs['nome']
             ]);
+            return [
+                'id' => $id,
+                'applicationToken' => $aplicacaoToken
+            ];
         } catch (\Throwable $th) {
             throw new AplicacaoException(json_encode([
                 'erros' => [

@@ -16,15 +16,17 @@ class ClientePersistence extends Database
      * Method to insert cliente usuario
      *
      * @param int $userId
-     * @return void
+     * @return string
      */
-    public function insert(int $userId): void
+    public function insert(int $userId): string
     {
         try {
+            $token = $this->clienteToken();
             $this->getDb()->table('cliente')->insert([
                 'id_usuario' => $userId,
-                'token' => $this->clienteToken()
+                'token' => $token
             ]);
+            return $token;
         } catch (\Throwable $th) {
             throw new ClienteException(json_encode([
                 'erros' => [
