@@ -1,5 +1,5 @@
 version: '3'
-name: vigilance-hub-test
+name: vigilance-hub
 services:
   hyperf:
     build:
