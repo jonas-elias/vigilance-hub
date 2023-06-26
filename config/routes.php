@@ -33,6 +33,9 @@ Router::addGroup('/api', function () {
         });
 
         Router::addGroup('/monitoramento', function () {
+            Router::get('/getTotalAplicacoes', 'App\Controller\Api\V1\Monitoramento\MonitoramentoController@getTotalAplicacoes');
+            Router::get('/getTotalMonitoramentos', 'App\Controller\Api\V1\Monitoramento\MonitoramentoController@getTotalMonitoramentos');
+            Router::get('/getTotalMonitoramentoData', 'App\Controller\Api\V1\Monitoramento\MonitoramentoController@getTotalMonitoramentoData');
             Router::delete('/{idMonitoramento}', 'App\Controller\Api\V1\Monitoramento\MonitoramentoController@delete');
             Router::post('/cache', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@create');
             Router::put('/cache/{idCache}', 'App\Controller\Api\V1\Monitoramento\Cache\CacheController@update');
