@@ -91,7 +91,7 @@ def update_application(inputs):
 
     response = requests.put(url, headers=headers, json=data)
 
-    if (response.status_code == 201):
+    if (response.status_code == 200):
         return response.json()
     else:
         return response.json()['erros']
@@ -112,7 +112,7 @@ def delete_application(inputs):
         return response.json()['erros']
 
 
-def create_monitoramento_cache(inputs):
+def create_cache_monitoring(inputs):
     url = baseurl + '/monitoramento/cache'
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -132,7 +132,7 @@ def create_monitoramento_cache(inputs):
         return response.json()['erros']
 
 
-def update_monitoramento_cache(inputs):
+def update_monitoring_cache(inputs):
     url = baseurl + '/monitoramento/cache/' + inputs['id_cache']
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -152,7 +152,7 @@ def update_monitoramento_cache(inputs):
         return response.json()['erros']
 
 
-def create_monitoramento_depuracao(inputs):
+def create_monitoring_depuracao(inputs):
     url = baseurl + '/monitoramento/depuracao'
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -172,7 +172,7 @@ def create_monitoramento_depuracao(inputs):
         return response.json()['erros']
 
 
-def update_monitoramento_depuracao(inputs):
+def update_monitoring_depuracao(inputs):
     url = baseurl + '/monitoramento/depuracao/' + inputs['id_depuracao']
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -191,7 +191,7 @@ def update_monitoramento_depuracao(inputs):
         return response.json()['erros']
 
 
-def create_monitoramento_erro(inputs):
+def create_monitoring_error(inputs):
     url = baseurl + '/monitoramento/erro'
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -213,7 +213,7 @@ def create_monitoramento_erro(inputs):
         return response.json()['erros']
 
 
-def update_monitoramento_erro(inputs):
+def update_monitoring_erro(inputs):
     url = baseurl + '/monitoramento/erro/' + inputs['id_erro']
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -235,7 +235,7 @@ def update_monitoramento_erro(inputs):
         return response.json()['erros']
 
 
-def create_monitoramento_log(inputs):
+def create_monitoring_log(inputs):
     url = baseurl + '/monitoramento/log'
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -256,7 +256,7 @@ def create_monitoramento_log(inputs):
         return response.json()['erros']
 
 
-def update_monitoramento_log(inputs):
+def update_monitoring_log(inputs):
     url = baseurl + '/monitoramento/log/' + inputs['id_log']
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -272,12 +272,12 @@ def update_monitoramento_log(inputs):
     response = requests.put(url, headers=headers, json=data)
 
     if (response.status_code == 200):
-        return response.json()['message']
+        return response.json()
     else:
         return response.json()['erros']
 
 
-def create_monitoramento_query(inputs):
+def create_monitoring_query(inputs):
     url = baseurl + '/monitoramento/query'
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -298,7 +298,7 @@ def create_monitoramento_query(inputs):
         return response.json()['erros']
 
 
-def update_monitoramento_query(inputs):
+def update_monitoring_query(inputs):
     url = baseurl + '/monitoramento/query/' + inputs['id_query']
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -320,7 +320,7 @@ def update_monitoramento_query(inputs):
         return response.json()['erros']
 
 
-def create_monitoramento_request(inputs):
+def create_monitoring_request(inputs):
     url = baseurl + '/monitoramento/request'
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -337,7 +337,7 @@ def create_monitoramento_request(inputs):
         "response": inputs['response']
     }
 
-    response = requests.post(url, headers=headers, json=json.dumps(data))
+    response = requests.post(url, headers=headers, json=data)
 
     if (response.status_code == 201):
         return response.json()
@@ -345,7 +345,7 @@ def create_monitoramento_request(inputs):
         return response.json()['erros']
 
 
-def update_monitoramento_request(inputs):
+def update_monitoring_request(inputs):
     url = baseurl + '/monitoramento/request/' + inputs['id_request']
     headers = {
         'aplicacaoToken': inputs['aplicacaoToken'],
@@ -416,7 +416,7 @@ def total_monitoramentos(inputs):
         return response.json()['erros']
 
 
-def total_monitoramento_data(inputs):
+def total_monitoring_data(inputs):
     url = baseurl + '/monitoramento/getTotalMonitoramentoData'
 
     headers = {
@@ -431,7 +431,7 @@ def total_monitoramento_data(inputs):
     else:
         return response.json()['erros']
 
-# create_monitoramento_query({
+# create_monitoring_query({
 #     'duracao': 3.15,
 #     'conector': 'MYSQL',
 #     'localizacao': 'CLASS/APICONTROLLER',

@@ -4,7 +4,6 @@ import client_vigilance_hub
 from time import sleep
 import plotly.graph_objects as go
 import pandas as pd
-import json
 
 
 def call_api(params, function):
@@ -88,16 +87,15 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(request_data, 'create_request_monitoring')
+            call_api(request_data, 'create_monitoring_request')
             continue
         elif sub_option == "5":
             debug_data = {
                 "depuracao": console.input("Depuração: "),
-                "headers": console.input("Headers: "),
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(debug_data, 'create_debug_monitoring')
+            call_api(debug_data, 'create_monitoring_depuracao')
             continue
         elif sub_option == "6":
             error_data = {
@@ -107,7 +105,7 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(error_data, 'create_error_monitoring')
+            call_api(error_data, 'create_monitoring_error')
             continue
         elif sub_option == "7":
             log_data = {
@@ -116,7 +114,7 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(log_data, 'create_log_monitoring')
+            call_api(log_data, 'create_monitoring_log')
             continue
         elif sub_option == "8":
             query_data = {
@@ -127,7 +125,7 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(query_data, 'create_query_monitoring')
+            call_api(query_data, 'create_monitoring_query')
             continue
         else:
             console.print(f"[{'bold red'}]Opção inválida.\n")
@@ -175,7 +173,7 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(cache_data, 'update_monitoramento_cache')
+            call_api(cache_data, 'update_monitoring_cache')
             continue
         elif sub_option == "4":
             request_data = {
@@ -189,16 +187,16 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(request_data, 'update_monitoramento_request')
+            call_api(request_data, 'update_monitoring_request')
             continue
         elif sub_option == "5":
             debug_data = {
-                'id_depuracao': console.input("Id do monitoramento da depuração: "),
+                "id_depuracao": console.input("Id do monitoramento da depuração: "),
                 "depuracao": console.input("Depuração: "),
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(debug_data, 'update_monitoramento_depuracao')
+            call_api(debug_data, 'update_monitoring_depuracao')
             continue
         elif sub_option == "6":
             error_data = {
@@ -209,7 +207,7 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(error_data, 'update_monitoramento_erro')
+            call_api(error_data, 'update_monitoring_erro')
             continue
         elif sub_option == "7":
             log_data = {
@@ -219,7 +217,7 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(log_data, 'update_monitoramento_log')
+            call_api(log_data, 'update_monitoring_log')
             continue
         elif sub_option == "8":
             query_data = {
@@ -231,7 +229,7 @@ while True:
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            call_api(query_data, 'update_monitoramento_query')
+            call_api(query_data, 'update_monitoring_query')
             continue
         else:
             console.print("Opção inválida.\n")
@@ -331,11 +329,11 @@ while True:
             fig.show()
             continue
         elif sub_option == "3":
-            total_monitoramento_data = {
+            total_monitoring_data = {
                 "aplicacaoToken": console.input("Aplicação Token: "),
                 "clienteToken": console.input("Cliente Token: ")
             }
-            data = call_api(total_monitoramento_data, 'total_monitoramento_data')
+            data = call_api(total_monitoring_data, 'total_monitoring_data')
             df = pd.DataFrame(data)
             df['monitoramento_total'] = df['monitoramento_total'].astype(int)
             fig = go.Figure(data=go.Scatter(x=df['data_monitoramento'], y=df['monitoramento_total']))
