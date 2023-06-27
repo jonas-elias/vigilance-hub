@@ -1,0 +1,981 @@
+{
+	"info": {
+		"_postman_id": "3d46f2b6-33d3-4837-812d-76b9fba6c5c4",
+		"name": "Backend-VigilanceHub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Cliente",
+					"item": [
+						{
+							"name": "DeleteCliente",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/usuario/register",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"usuario",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "DeleteAdmin",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/usuario/admin/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"usuario",
+										"admin",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "InserçãoUsuário",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Jonas\",\r\n    \"email\": \"jonas@gmail.com\",\r\n    \"senha\": \"oasmomasoamsdoad\",\r\n    \"isAdmin\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/usuario/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"usuario",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AlteraçãoUsuário",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Jonas Elias\",\r\n    \"email\": \"asfavaeaef@gmail.com\",\r\n    \"senha\": \"aisjfoaoaenv\",\r\n    \"isAdmin\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/usuario/update/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"usuario",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Monitoramento",
+			"item": [
+				{
+					"name": "Cache",
+					"item": [
+						{
+							"name": "InserçãoCache",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"acao\": \"hit\",\r\n    \"chave\": \"cachetrueteste\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/cache",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"cache"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AlteraçãoCache",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"acao\": \"hit\",\r\n    \"chave\": \"cachetrueteste\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/cache/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"cache",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Depuração",
+					"item": [
+						{
+							"name": "InserçãoDepuração",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "f86c391feaa7091b9723a94023905438ac99baa61dd24a82ac6888b2422f2dac61f5c47cd4ca2225db03b28406cf427b9eafd2c0b76f83e9f14c2a82127ac33a",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "7a66cb48f9457a585dc78a97da5d721830c8e306d7f6df79fbed15c2b6686729214f8fda62d1e64d5a90deb84aacfddda7b4a7d47e23d6aac732b6fa61ddb10b",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"depuracao\": \"erro stacktrace teste\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/depuracao",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"depuracao"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AlteraçãoDepuração",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "f86c391feaa7091b9723a94023905438ac99baa61dd24a82ac6888b2422f2dac61f5c47cd4ca2225db03b28406cf427b9eafd2c0b76f83e9f14c2a82127ac33a",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "7a66cb48f9457a585dc78a97da5d721830c8e306d7f6df79fbed15c2b6686729214f8fda62d1e64d5a90deb84aacfddda7b4a7d47e23d6aac732b6fa61ddb10b",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"depuracao\": \"erro teste\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/depuracao/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"depuracao",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Query",
+					"item": [
+						{
+							"name": "InserçãoQuery",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duracao\": 3.15,\r\n    \"conector\": \"MYSQL\",\r\n    \"localizacao\": \"App/Api/Queries/TestQuery\",\r\n    \"query\": \"INSERT INTO sql_test_a (ID, FIRST_NAME, LAST_NAME) VALUES ('6', 'Johhny', 'Depp');\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/query",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"query"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AlteraçãoQuery",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duracao\": 3.15,\r\n    \"conector\": \"MYSQL\",\r\n    \"localizacao\": \"App/Api/Queries/TestQuery\",\r\n    \"query\": \"INSERT INTO sql_test_a (ID, FIRST_NAME, LAST_NAME) VALUES ('6', 'Johhny', 'Depp');\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/query/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"query",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Erro",
+					"item": [
+						{
+							"name": "AlteraçãoErro",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nivel\": \"error\",\r\n    \"localizacao\": \"Class//App/Class/Controller/File/Line:25\",\r\n    \"stacktrace\": \"Error in insert table not exists\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/erro/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"erro",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InserçãoErro",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nivel\": \"error\",\r\n    \"localizacao\": \"Class//App/Class/Controller/File/Line:25\",\r\n    \"stacktrace\": \"Error in insert table not exists\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/erro",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"erro"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Log",
+					"item": [
+						{
+							"name": "InserçãoLog",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nivel\": \"info\",\r\n    \"mensagem\": \"Registro atualizado com sucesso!\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/log",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"log"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AlteraçãoLog",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nivel\": \"info\",\r\n    \"mensagem\": \"Registro teste com sucesso!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/log/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"log",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Request",
+					"item": [
+						{
+							"name": "InserçãoRequest",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duracao\": 3.15,\r\n    \"status\": 200,\r\n    \"metodo\": \"GET\",\r\n    \"uri\": \"/api/log\",\r\n    \"headers\": \"'accept-language: pt-BR,pt;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6' -H 'cookie: _octo=GH1.1.1802962717.1673641892; _device_id=9bcf970aa5ddcce324cf4d6649d624d9; user_session=Dw3O9ZaEEjFN_4NTJPdW2uvYPdjQP0nl2kgYyYywm4Yh_W1O; __Host-user_session_same_site=Dw3O9ZaEEjFN_4NTJPdW2uvYPdjQP0nl2kgYyYywm4Yh_W1O; logged_in=yes; dotcom_user=jonas-elias; preferred_color_mode=dark; color_mode=%7B%22color_mode%22%3A%22auto%22%2C%22light_theme%22%3A%7B%22name%22%3A%22dark_dimmed%22%2C%22color_mode%22%3A%22dark%22%7D%2C%22dark_theme%22%3A%7B%22name%22%3A%22dark_dimmed%22%2C%22color_mode%22%3A%22dark%22%7D%7D; tz=America%2FSao_Paulo; has_recent_activity=1; _gh_sess=dT3cDwCPy5SJVXHZlG3Pv9Fumb41c1Pp9%2BFIIuC%2Br3N9JwKZWr9gwPkMVzGItitIcbteD165HTfLIuY9NgtNDbVtucjaMF1I4vxddvAr1EsYbCuxxTWFGQqEOdZg0mc4kBW6W4%2F1bnFhXgGCrH8EsivDU6bbTB1v4Yzc3K8O8PuasjSI7Mwk6Qbtc75Yp7pt9NKoVf3JqsCtxl%2BR%2B%2B1IRvWVk1B%2B9OHdW2qrFheZWYSx4%2FSYsjD3MBG9FtJ%2BjZArzl38VVD%2BDmMjCiwGNQm%2FFTV3V%2B7HhJRN6RqXEhR6TjrB0dQSkUysEtv8dwpV7QiA13ek6njTGhdaJQlMpA%3D%3D--SeUqr8jcNPczaoKr--DAIz61dIxIJlkJVwzIoLw%3D%3D'\",\r\n    \"response\": \"{'show_indicator': false}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/request",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AlteraçãoRequest",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "aplicacaoToken",
+										"value": "51107922ed43d5acd7622aad8c2301cd75dab9005f4e6571986c0e96fc08879b60ce6017afa09cc8c82d1b0706f50bb9b9ad982bb78c1949e97dc1de468d84db",
+										"type": "default"
+									},
+									{
+										"key": "clienteToken",
+										"value": "0ecfaf4fdbc5cd4568a8eabf46e3e47ed7c9f749dce6bc5e4ea4cd445451c4274192ed392f35d68ff6c2c77a803dc3df66b8281fd44ba54f0c6a9914c4d2133d",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duracao\": 3.15,\r\n    \"status\": 200,\r\n    \"metodo\": \"GET\",\r\n    \"uri\": \"/api/log\",\r\n    \"headers\": \"'accept-language: pt-BR,pt;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6' -H 'cookie: _octo=GH1.1.1802962717.1673641892; _device_id=9bcf970aa5ddcce324cf4d6649d624d9; user_session=Dw3O9ZaEEjFN_4NTJPdW2uvYPdjQP0nl2kgYyYywm4Yh_W1O; __Host-user_session_same_site=Dw3O9ZaEEjFN_4NTJPdW2uvYPdjQP0nl2kgYyYywm4Yh_W1O; logged_in=yes; dotcom_user=jonas-elias; preferred_color_mode=dark; color_mode=%7B%22color_mode%22%3A%22auto%22%2C%22light_theme%22%3A%7B%22name%22%3A%22dark_dimmed%22%2C%22color_mode%22%3A%22dark%22%7D%2C%22dark_theme%22%3A%7B%22name%22%3A%22dark_dimmed%22%2C%22color_mode%22%3A%22dark%22%7D%7D; tz=America%2FSao_Paulo; has_recent_activity=1; _gh_sess=dT3cDwCPy5SJVXHZlG3Pv9Fumb41c1Pp9%2BFIIuC%2Br3N9JwKZWr9gwPkMVzGItitIcbteD165HTfLIuY9NgtNDbVtucjaMF1I4vxddvAr1EsYbCuxxTWFGQqEOdZg0mc4kBW6W4%2F1bnFhXgGCrH8EsivDU6bbTB1v4Yzc3K8O8PuasjSI7Mwk6Qbtc75Yp7pt9NKoVf3JqsCtxl%2BR%2B%2B1IRvWVk1B%2B9OHdW2qrFheZWYSx4%2FSYsjD3MBG9FtJ%2BjZArzl38VVD%2BDmMjCiwGNQm%2FFTV3V%2B7HhJRN6RqXEhR6TjrB0dQSkUysEtv8dwpV7QiA13ek6njTGhdaJQlMpA%3D%3D--SeUqr8jcNPczaoKr--DAIz61dIxIJlkJVwzIoLw%3D%3D'\",\r\n    \"response\": \"{'show_indicator': false}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:9501/api/v1/monitoramento/request/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "9501",
+									"path": [
+										"api",
+										"v1",
+										"monitoramento",
+										"request",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DeleteMonitoramento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/monitoramento/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"monitoramento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTotalAplicacao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/monitoramento/getTotalAplicacoes",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"monitoramento",
+								"getTotalAplicacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTotalMonitoramentos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "aplicacaoToken",
+								"value": "f86c391feaa7091b9723a94023905438ac99baa61dd24a82ac6888b2422f2dac61f5c47cd4ca2225db03b28406cf427b9eafd2c0b76f83e9f14c2a82127ac33a",
+								"type": "default"
+							},
+							{
+								"key": "clienteToken",
+								"value": "7a66cb48f9457a585dc78a97da5d721830c8e306d7f6df79fbed15c2b6686729214f8fda62d1e64d5a90deb84aacfddda7b4a7d47e23d6aac732b6fa61ddb10b",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/monitoramento/getTotalMonitoramentos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"monitoramento",
+								"getTotalMonitoramentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTotalMonitoramentoData",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "aplicacaoToken",
+								"value": "f86c391feaa7091b9723a94023905438ac99baa61dd24a82ac6888b2422f2dac61f5c47cd4ca2225db03b28406cf427b9eafd2c0b76f83e9f14c2a82127ac33a",
+								"type": "default"
+							},
+							{
+								"key": "clienteToken",
+								"value": "7a66cb48f9457a585dc78a97da5d721830c8e306d7f6df79fbed15c2b6686729214f8fda62d1e64d5a90deb84aacfddda7b4a7d47e23d6aac732b6fa61ddb10b",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/monitoramento/getTotalMonitoramentos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"monitoramento",
+								"getTotalMonitoramentos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Aplicação",
+			"item": [
+				{
+					"name": "AlteraçãoAplicação",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Jonas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/aplicaca3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"aplicaca3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAplicação",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Jonas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/aplicacao/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"aplicacao",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InserçãoAplicação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCliente\": \"1\",\r\n    \"nome\": \"Jonas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/aplicacao",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"aplicacao"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Database",
+			"item": [
+				{
+					"name": "MigrationRefresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9501/api/v1/migrateRefresh",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9501",
+							"path": [
+								"api",
+								"v1",
+								"migrateRefresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
