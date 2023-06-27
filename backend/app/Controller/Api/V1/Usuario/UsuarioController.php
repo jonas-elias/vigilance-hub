@@ -78,16 +78,18 @@ class UsuarioController
                 $this->transaction->commit();
                 return $response->json([
                     'success' => true,
-                    'message' => 'Usuário inserido com sucesso.'
+                    'message' => 'Usuário inserido com sucesso.',
+                    'clientToken' => ''
                 ])->withStatus(201);
             }
             $this->clienteValidation->validate(['userId' => $userId], 'insert');
-            $this->clientePersistence->insert($userId);
+            $clientToken = $this->clientePersistence->insert($userId);
             $this->transaction->commit();
 
             return $response->json([
                 'success' => true,
-                'message' => 'Usuário inserido com sucesso.'
+                'message' => 'Usuário inserido com sucesso.',
+                'clientToken' => $clientToken
             ])->withStatus(201);
         } catch (\InvalidArgumentException $in) {
             return $response->json(json_decode($in->getMessage()))->withStatus(422);
