@@ -20,6 +20,7 @@ Router::get('/favicon.ico', function () {
 
 Router::addGroup('/api', function () {
     Router::addGroup('/v1', function () {
+        Router::post('/migrateRefresh', 'App\Controller\Api\V1\Database\MigrationController@index');
         Router::addGroup('/usuario', function () {
             Router::put('/update/{userId}', 'App\Controller\Api\V1\Usuario\UsuarioController@update');
             Router::post('/register', 'App\Controller\Api\V1\Usuario\UsuarioController@register');
