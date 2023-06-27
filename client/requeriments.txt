@@ -1,0 +1,6 @@
+rich
+json
+requests
+time
+plotly
+pandas
