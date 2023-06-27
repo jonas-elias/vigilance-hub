@@ -305,6 +305,8 @@ while True:
             if "erros" in data:
                 continue
             df = pd.DataFrame(data)
+            if not "id_cliente" in df:
+                continue
             id_cliente = df['id_cliente']
             nome = df['nome']
             aplicacoes = df['aplicacoes']
@@ -359,15 +361,19 @@ while True:
             sleep(1)
     elif option == "5":
         client_vigilance_hub.generate_insert()
+        console.print(f"[{'bold green'}]Inserido com sucesso.\n")
         continue
     elif option == "6":
         client_vigilance_hub.generate_update()
+        console.print(f"[{'bold green'}]Alterado com sucesso.\n")
         continue
     elif option == "7":
         client_vigilance_hub.generation_delete()
+        console.print(f"[{'bold green'}]Deletado com sucesso.\n")
         continue
     elif option == "8":
         client_vigilance_hub.migration_database()
+        console.print(f"[{'bold green'}]Migrations resetada com sucesso.\n")
         continue
     else:
         console.print(f"[{'bold red'}]Opção inválida.\n")
