@@ -1,0 +1,304 @@
+
+CREATE SCHEMA vigilance_hub AUTHORIZATION "user";
+
+-- DROP SEQUENCE vigilance_hub.admin_id_seq;
+
+CREATE SEQUENCE vigilance_hub.admin_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.aplicacao_id_seq;
+
+CREATE SEQUENCE vigilance_hub.aplicacao_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.cache_id_seq;
+
+CREATE SEQUENCE vigilance_hub.cache_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.cliente_id_seq;
+
+CREATE SEQUENCE vigilance_hub.cliente_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.depuracao_id_seq;
+
+CREATE SEQUENCE vigilance_hub.depuracao_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.erro_id_seq;
+
+CREATE SEQUENCE vigilance_hub.erro_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.log_id_seq;
+
+CREATE SEQUENCE vigilance_hub.log_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.migrations_id_seq;
+
+CREATE SEQUENCE vigilance_hub.migrations_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.monitoramento_id_seq;
+
+CREATE SEQUENCE vigilance_hub.monitoramento_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.query_id_seq;
+
+CREATE SEQUENCE vigilance_hub.query_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.request_id_seq;
+
+CREATE SEQUENCE vigilance_hub.request_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE vigilance_hub.usuario_id_seq;
+
+CREATE SEQUENCE vigilance_hub.usuario_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;-- vigilance_hub.migrations definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.migrations;
+
+CREATE TABLE vigilance_hub.migrations (
+	id serial4 NOT NULL,
+	migration varchar(255) NOT NULL,
+	batch int4 NOT NULL,
+	CONSTRAINT migrations_pkey PRIMARY KEY (id)
+);
+
+
+-- vigilance_hub.usuario definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.usuario;
+
+CREATE TABLE vigilance_hub.usuario (
+	id bigserial NOT NULL,
+	nome varchar(255) NOT NULL,
+	email varchar(255) NOT NULL,
+	senha varchar(255) NOT NULL,
+	data_criacao timestamp(0) NOT NULL,
+	CONSTRAINT usuario_pkey PRIMARY KEY (id)
+);
+
+
+-- vigilance_hub."admin" definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub."admin";
+
+CREATE TABLE vigilance_hub."admin" (
+	id bigserial NOT NULL,
+	id_usuario int8 NOT NULL,
+	CONSTRAINT admin_pkey PRIMARY KEY (id),
+	CONSTRAINT admin_id_usuario_foreign FOREIGN KEY (id_usuario) REFERENCES vigilance_hub.usuario(id)
+);
+
+
+-- vigilance_hub.cliente definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.cliente;
+
+CREATE TABLE vigilance_hub.cliente (
+	id bigserial NOT NULL,
+	id_usuario int8 NOT NULL,
+	"token" varchar(128) NOT NULL,
+	CONSTRAINT cliente_pkey PRIMARY KEY (id),
+	CONSTRAINT cliente_id_usuario_foreign FOREIGN KEY (id_usuario) REFERENCES vigilance_hub.usuario(id)
+);
+CREATE INDEX cliente_token ON vigilance_hub.cliente USING btree (token);
+
+
+-- vigilance_hub.aplicacao definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.aplicacao;
+
+CREATE TABLE vigilance_hub.aplicacao (
+	id bigserial NOT NULL,
+	nome varchar(255) NOT NULL,
+	id_cliente int8 NOT NULL,
+	"token" varchar(128) NOT NULL,
+	data_criacao timestamp(0) NOT NULL,
+	CONSTRAINT aplicacao_pkey PRIMARY KEY (id),
+	CONSTRAINT aplicacao_id_cliente_foreign FOREIGN KEY (id_cliente) REFERENCES vigilance_hub.cliente(id)
+);
+CREATE INDEX aplicacao_token ON vigilance_hub.aplicacao USING btree (token);
+
+
+-- vigilance_hub.monitoramento definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.monitoramento;
+
+CREATE TABLE vigilance_hub.monitoramento (
+	id bigserial NOT NULL,
+	id_aplicacao int8 NOT NULL,
+	data_criacao timestamp(0) NOT NULL,
+	CONSTRAINT monitoramento_pkey PRIMARY KEY (id),
+	CONSTRAINT monitoramento_id_aplicacao_foreign FOREIGN KEY (id_aplicacao) REFERENCES vigilance_hub.aplicacao(id)
+);
+
+
+-- vigilance_hub.query definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.query;
+
+CREATE TABLE vigilance_hub.query (
+	id bigserial NOT NULL,
+	id_monitoramento int8 NOT NULL,
+	conector varchar(10) NOT NULL,
+	duracao float8 NOT NULL,
+	query varchar(8192) NOT NULL,
+	localizacao varchar(255) NOT NULL,
+	CONSTRAINT query_pkey PRIMARY KEY (id),
+	CONSTRAINT query_id_monitoramento_foreign FOREIGN KEY (id_monitoramento) REFERENCES vigilance_hub.monitoramento(id) ON DELETE CASCADE
+);
+
+
+-- vigilance_hub.request definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.request;
+
+CREATE TABLE vigilance_hub.request (
+	id bigserial NOT NULL,
+	id_monitoramento int8 NOT NULL,
+	metodo varchar(7) NOT NULL,
+	uri varchar(255) NOT NULL,
+	status int4 NOT NULL,
+	duracao float8 NOT NULL,
+	headers varchar(8192) NOT NULL,
+	response varchar(8192) NOT NULL,
+	CONSTRAINT request_pkey PRIMARY KEY (id),
+	CONSTRAINT request_id_monitoramento_foreign FOREIGN KEY (id_monitoramento) REFERENCES vigilance_hub.monitoramento(id) ON DELETE CASCADE
+);
+
+
+-- vigilance_hub."cache" definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub."cache";
+
+CREATE TABLE vigilance_hub."cache" (
+	id bigserial NOT NULL,
+	id_monitoramento int8 NOT NULL,
+	chave varchar(255) NOT NULL,
+	acao varchar(6) NOT NULL,
+	CONSTRAINT cache_pkey PRIMARY KEY (id),
+	CONSTRAINT cache_id_monitoramento_foreign FOREIGN KEY (id_monitoramento) REFERENCES vigilance_hub.monitoramento(id) ON DELETE CASCADE
+);
+
+
+-- vigilance_hub.depuracao definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.depuracao;
+
+CREATE TABLE vigilance_hub.depuracao (
+	id bigserial NOT NULL,
+	id_monitoramento int8 NOT NULL,
+	depuracao varchar(4096) NOT NULL,
+	CONSTRAINT depuracao_pkey PRIMARY KEY (id),
+	CONSTRAINT depuracao_id_monitoramento_foreign FOREIGN KEY (id_monitoramento) REFERENCES vigilance_hub.monitoramento(id) ON DELETE CASCADE
+);
+
+
+-- vigilance_hub.erro definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.erro;
+
+CREATE TABLE vigilance_hub.erro (
+	id bigserial NOT NULL,
+	id_monitoramento int8 NOT NULL,
+	stacktrace varchar(8192) NOT NULL,
+	nivel varchar(10) NOT NULL,
+	localizacao varchar(255) NOT NULL,
+	CONSTRAINT erro_pkey PRIMARY KEY (id),
+	CONSTRAINT erro_id_monitoramento_foreign FOREIGN KEY (id_monitoramento) REFERENCES vigilance_hub.monitoramento(id) ON DELETE CASCADE
+);
+
+
+-- vigilance_hub.log definition
+
+-- Drop table
+
+-- DROP TABLE vigilance_hub.log;
+
+CREATE TABLE vigilance_hub.log (
+	id bigserial NOT NULL,
+	id_monitoramento int8 NOT NULL,
+	nivel varchar(10) NOT NULL,
+	mensagem varchar(4096) NOT NULL,
+	CONSTRAINT log_pkey PRIMARY KEY (id),
+	CONSTRAINT log_id_monitoramento_foreign FOREIGN KEY (id_monitoramento) REFERENCES vigilance_hub.monitoramento(id) ON DELETE CASCADE
+);
+
