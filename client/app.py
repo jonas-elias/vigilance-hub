@@ -27,6 +27,10 @@ while True:
         f"[{option_style}]2. Opções de update\n"
         f"[{option_style}]3. Opções de delete\n"
         f"[{option_style}]4. Opções de geração gráfico\n"
+        f"[{option_style}]5. Gerar inserts automaticamente\n"
+        f"[{option_style}]6. Gerar update automaticamente\n"
+        f"[{option_style}]7. Gerar delete automaticamente\n"
+        f"[{option_style}]8. Resetar o banco de dados\n"
     )
 
     console.print(content)
@@ -298,6 +302,8 @@ while True:
         if sub_option == "1":
         
             data = call_api([], 'total_aplicacoes')
+            if "erros" in data:
+                continue
             df = pd.DataFrame(data)
             id_cliente = df['id_cliente']
             nome = df['nome']
@@ -318,6 +324,8 @@ while True:
                 "clienteToken": console.input("Cliente Token: ")
             }
             data = call_api(total_monitoramentos_data, 'total_monitoramentos')
+            if "erros" in data:
+                continue
 
             labels = list(data[0].keys())[3:]
             values = list(data[0].values())[3:]
@@ -334,6 +342,8 @@ while True:
                 "clienteToken": console.input("Cliente Token: ")
             }
             data = call_api(total_monitoring_data, 'total_monitoring_data')
+            if "erros" in data:
+                continue
             df = pd.DataFrame(data)
             df['monitoramento_total'] = df['monitoramento_total'].astype(int)
             fig = go.Figure(data=go.Scatter(x=df['data_monitoramento'], y=df['monitoramento_total']))
@@ -347,6 +357,18 @@ while True:
         else:
             console.print(f"[{'bold red'}]Opção inválida.\n")
             sleep(1)
+    elif option == "5":
+        client_vigilance_hub.generate_insert()
+        continue
+    elif option == "6":
+        client_vigilance_hub.generate_update()
+        continue
+    elif option == "7":
+        client_vigilance_hub.generation_delete()
+        continue
+    elif option == "8":
+        client_vigilance_hub.migration_database()
+        continue
     else:
         console.print(f"[{'bold red'}]Opção inválida.\n")
         sleep(1)
