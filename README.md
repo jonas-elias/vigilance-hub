@@ -23,11 +23,14 @@ docker-compose up -d
 CREATE SCHEMA vigilance_hub
 ```
 
-### Crie as tabelas do esquema a partir das migrations da aplicação backend
+### Instale o componente de migrations do hyperf através do comando a seguir dentro do terminal disponibilizado pelo docker (imagem hyperf do docker-compose) e crie as tabelas a partir dos comandos restantes
 ```
-curl --location --request POST 'http://127.0.0.1:9501/api/v1/migrateRefresh'
-```
+php bin/hyperf.php migrate:install
 
+php bin/hyperf.php migrate
+
+php bin/hyperf.php migrate:refresh
+```
 
 ### Execute dentro da pasta _client_ o comando a seguir
 ```
