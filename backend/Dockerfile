@@ -23,8 +23,8 @@ RUN set -ex \
     } | tee conf.d/99_overrides.ini \
     # - config timezone
     && ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
-    && apk add php-pgsql \
-    && apk add php-pdo_pgsql \
+    && apk add php81-pgsql \
+    && apk add php81-pdo_pgsql \
     && echo "${TIMEZONE}" > /etc/timezone \
     && rm -rf /var/cache/apk/* /tmp/* /usr/share/man \
     && echo -e "\033[42;37m Build Completed :).\033[0m\n"
